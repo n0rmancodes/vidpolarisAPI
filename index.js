@@ -1,6 +1,7 @@
 const ytdl = require('ytdl-core');
 const ytsr = require('ytsr');
 let filter;
+const fetchComments = require('youtube-comments-task')
 const http = require('http'); 
 const url = require('url');
 var fetchVideoInfo = require('youtube-info');
@@ -9,7 +10,7 @@ http.createServer(onrequest).listen(process.env.PORT || 3000);
 function onrequest(request, response) {
 	var oUrl = url.parse(request.url, true);
 	
-	if (!oUrl.query.url && !oUrl.query.search && !oUrl.query.md && !oUrl.query.video) {
+	if (!oUrl.query.url && !oUrl.query.search) {
 		response.statusCode = 404;
 		var json = JSON.stringify ({
 			"err": "noValidParams",
@@ -45,6 +46,7 @@ function onrequest(request, response) {
 	}
 	
 	if (oUrl.query.video === "1") {
+		var dUrl = oUrl.query.url;
 		if (!dUrl.includes("http")) {
 			var json = JSON.stringify ({
 				"err": "mustBeUrl"
@@ -97,8 +99,8 @@ function onrequest(request, response) {
 		return;
 	}
 	
-	if (oUrl.query.md) {
-		var md = oUrl.query.md
+	if (oUrl.query.md === "1") {
+		var md = oUrl.query.url
 		var yt = url.parse(md);
 		var id = yt.search.substring(3);
 		if (!id) {
@@ -143,6 +145,7 @@ function onrequest(request, response) {
 	}
 	
 	if (oUrl.query.info === "1") {
+		var dUrl = oUrl.query.url;
 		console.log("getting info for url: " + dUrl);
 		ytdl(dUrl, function(err, info) {
 			if (!err) {
@@ -169,11 +172,12 @@ function onrequest(request, response) {
 	}
 	
 	if (oUrl.query.audio === "1") {
+		var dUrl = oUrl.query.url;
 		if (!dUrl.includes("http")) {
 			var json = JSON.stringify ({
 				"err": "mustBeUrl"
 			})
-			response.writeHead(200, {
+			response.writeHead(404, {
 				"Content-Type": "application/json",
 				"Access-Control-Allow-Origin": "*"
 			});
@@ -218,6 +222,41 @@ function onrequest(request, response) {
 			});
 			response.end(json);
 		})
+		return;
+	}
+	
+	if (oUrl.query.comments === "1") {
+		var dUrl = oUrl.query.url;
+		if (!dUrl.includes("http")) {
+			var json = JSON.stringify ({
+				"err": "mustBeUrl"
+			})
+			response.writeHead(404, {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*"
+			});
+			response.end(json);
+			console.log("invalid request")
+			return;
+		}
+		var parsed = url.parse(dUrl)
+		var id = parsed.search.substring(3)
+		fetchComments(id)
+			.fork(e => console.error('ERROR', e),
+				p => {
+					var json = JSON.stringify({
+						"comments": p.comments,
+						"npToken": p.nextPageToken
+					})
+					response.writeHead(404, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					});
+					response.end(json);
+					return;
+				}
+			)
+		console.log("got comments on video: https://youtube.com/watch?v=" + id)
 		return;
 	}
 	
