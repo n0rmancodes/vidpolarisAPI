@@ -66,6 +66,7 @@ function onrequest(request, response) {
 				"Access-Control-Allow-Origin": "*"
 			});
 			response.end(json);
+			return;
 		})
 	}
 	
