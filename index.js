@@ -53,7 +53,7 @@ function onrequest(request, response) {
 				response.end(json)
 				return;
 			}
-			console.log("getting video download url: " + dUrl);
+			console.log("getting smart download urls: " + dUrl);
 			let vFormats = ytdl.filterFormats(info.formats, 'videoonly');
 			let aFormats = ytdl.filterFormats(info.formats, 'audioonly');
 			var json = JSON.stringify ({
