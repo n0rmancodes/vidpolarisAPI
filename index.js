@@ -11,15 +11,62 @@ function onrequest(request, response) {
 	var oUrl = url.parse(request.url, true);
 	
 	if (!oUrl.query.url && !oUrl.query.search) {
-		response.statusCode = 404;
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints"
 		})
 		console.log("invalid request")
+		response.writeHead(404, {
+			"Content-Type": "application/json",
+			"Access-Control-Allow-Origin": "*"
+		});
+		response.end(json);
 		return;
 	} else {
 		var dUrl = oUrl.query.url;
+	}
+	
+	if (oUrl.query.smart == "1") {
+		var dUrl = oUrl.query.url;
+		ytdl(dUrl, function(err, info) {
+			if (err) {
+				console.log("error!: " + err)
+				var json = JSON.stringify ({
+					"err": err
+				})
+				response.writeHead(404, {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*"
+				});
+				response.end(json)
+				return;
+			}
+			if (!info.formats) {
+				console.log("no formats found")
+				var json = JSON.stringify ({
+					"err": "noFormats"
+				})
+				response.writeHead(404, {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*"
+				});
+				response.end(json)
+				return;
+			}
+			console.log("getting video download url: " + dUrl);
+			let vFormats = ytdl.filterFormats(info.formats, 'videoonly');
+			let aFormats = ytdl.filterFormats(info.formats, 'audioonly');
+			var json = JSON.stringify ({
+				video: vFormats,
+				audio: aFormats,
+				info
+			})
+			response.writeHead(200, {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*"
+			});
+			response.end(json);
+		})
 	}
 	
 	if (oUrl.query.search) {
