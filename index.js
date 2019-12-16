@@ -1,11 +1,15 @@
+console.log("vidpolaris API")
+console.log("booting up....")
 const ytdl = require('ytdl-core');
 const ytsr = require('ytsr');
 let filter;
-const fetchComments = require('youtube-comments-task')
+const fetchComments = require('youtube-comment-api')
 const http = require('http'); 
 const url = require('url');
 var fetchVideoInfo = require('youtube-info');
 http.createServer(onrequest).listen(process.env.PORT || 3000);
+console.log("listening on port 3000")
+console.log("============================")
 
 function onrequest(request, response) {
 	var oUrl = url.parse(request.url, true);
@@ -290,21 +294,74 @@ function onrequest(request, response) {
 		var parsed = url.parse(dUrl)
 		var id = parsed.search.substring(3)
 		fetchComments(id)
-			.fork(e => console.error('ERROR', e),
-				p => {
+			.then(commentPage => {
 					var json = JSON.stringify({
-						"comments": p.comments,
-						"npToken": p.nextPageToken
+						"comments": commentPage.comments,
+						"npToken": commentPage.nextPageToken
 					})
-					response.writeHead(404, {
+					response.writeHead(200, {
 						"Content-Type": "application/json",
 						"Access-Control-Allow-Origin": "*"
 					});
 					response.end(json);
 					return;
-				}
-			)
+			})
 		console.log("got comments on video: https://youtube.com/watch?v=" + id)
+		return;
+	}
+	
+	if (oUrl.query.itag) {
+		var itag = oUrl.query.itag;
+		var dUrl = oUrl.query.url;
+		if (!dUrl.includes("http")) {
+			var json = JSON.stringify ({
+				"err": "mustBeUrl"
+			})
+			response.writeHead(404, {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*"
+			});
+			response.end(json);
+			console.log("invalid request")
+			return;
+		} else {
+			ytdl(dUrl, function(err, info) {
+				if (err) {
+					console.log("error!: " + err)
+					var json = JSON.stringify ({
+						"err": err
+					})
+					response.writeHead(404, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					});
+					response.end(json)
+					return;
+				}
+				if (!info.formats) {
+					console.log("no formats found")
+					var json = JSON.stringify ({
+						"err": "noFormats"
+					})
+					response.writeHead(404, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					});
+					response.end(json)
+					return;
+				}
+				let format = ytdl.chooseFormat(info.formats, { quality: itag });
+				var json = JSON.stringify ({
+					datainfo: format
+				})
+				response.writeHead(200, {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*"
+				});
+				response.end(json);
+				console.log("got itag " + itag + " for video " + dUrl);
+			})
+		}
 		return;
 	}
 	
