@@ -7,6 +7,7 @@ const fetchComments = require('youtube-comment-api')
 const http = require('http'); 
 const url = require('url');
 var fetchVideoInfo = require('youtube-info');
+var youtubeSuggest = require('youtube-suggest')
 http.createServer(onrequest).listen(process.env.PORT || 3000);
 console.log("listening on port 3000")
 console.log("============================")
@@ -14,12 +15,11 @@ console.log("============================")
 function onrequest(request, response) {
 	var oUrl = url.parse(request.url, true);
 	
-	if (!oUrl.query.url && !oUrl.query.search) {
+	if (!oUrl.query.url && !oUrl.query.search && !oUrl.query.suggest) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints"
 		})
-		console.log("invalid request")
 		response.writeHead(404, {
 			"Content-Type": "application/json",
 			"Access-Control-Allow-Origin": "*"
@@ -57,7 +57,6 @@ function onrequest(request, response) {
 				response.end(json)
 				return;
 			}
-			console.log("getting smart download urls: " + dUrl);
 			let vFormats = ytdl.filterFormats(info.formats, 'videoonly');
 			let aFormats = ytdl.filterFormats(info.formats, 'audioonly');
 			var json = JSON.stringify ({
@@ -76,7 +75,6 @@ function onrequest(request, response) {
 	
 	if (oUrl.query.search) {
 		var search = oUrl.query.search;
-		console.log("searched for: " + search);
 		ytsr.getFilters(search, function(err, filters) {
 			filter = filters.get('Type').find(o => o.name === 'Video');
 			var options = {
@@ -93,6 +91,22 @@ function onrequest(request, response) {
 				});
 				response.end(json);
 			})
+		})
+		return;
+	}
+	
+	if (oUrl.query.suggest) {
+		var q = oUrl.query.suggest
+		youtubeSuggest(q).then(function (results) {
+			var json = JSON.stringify ({
+				results
+			})
+			response.writeHead(200, {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*"
+			});
+			response.end(json);
+			return;
 		})
 		return;
 	}
@@ -136,7 +150,6 @@ function onrequest(request, response) {
 				response.end(json)
 				return;
 			}
-			console.log("getting video download url: " + dUrl);
 			let aFormats = ytdl.filterFormats(info.formats, 'videoonly');
 			var json = JSON.stringify ({
 				datainfo: aFormats,
@@ -189,7 +202,6 @@ function onrequest(request, response) {
 					"Access-Control-Allow-Origin": "*"
 				});
 				response.end(json);
-				console.log("got metadata for url: " + md)
 				return;
 			}
 		})
@@ -198,7 +210,6 @@ function onrequest(request, response) {
 	
 	if (oUrl.query.info === "1") {
 		var dUrl = oUrl.query.url;
-		console.log("getting info for url: " + dUrl);
 		ytdl(dUrl, function(err, info) {
 			if (!err) {
 				var json = JSON.stringify ({
@@ -262,7 +273,6 @@ function onrequest(request, response) {
 				response.end(json)
 				return;
 			}
-			console.log("getting audio download url: " + dUrl);
 			let aFormats = ytdl.filterFormats(info.formats, 'audioonly');
 			var json = JSON.stringify ({
 				datainfo: aFormats,
@@ -306,7 +316,6 @@ function onrequest(request, response) {
 					response.end(json);
 					return;
 			})
-		console.log("got comments on video: https://youtube.com/watch?v=" + id)
 		return;
 	}
 	
@@ -359,7 +368,6 @@ function onrequest(request, response) {
 					"Access-Control-Allow-Origin": "*"
 				});
 				response.end(json);
-				console.log("got itag " + itag + " for video " + dUrl);
 			})
 		}
 		return;
@@ -378,7 +386,6 @@ function onrequest(request, response) {
 			console.log("invalid request")
 			return;
 		}
-		console.log("getting video download url: " + dUrl);
 		if (err) {
 			console.log("error!: " + err)
 			var json = JSON.stringify ({

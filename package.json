@@ -24,9 +24,11 @@
 		"data.task": "^3.1.2",
 		"hoek": "^6.1.3",
 		"lodash": "^4.17.15",
+		"miniget": "^1.6.1",
 		"request": "^2.88.0",
 		"youtube-comment-api": "^3.0.2",
 		"youtube-info": "^1.3.2",
+		"youtube-suggest": "^1.1.0",
 		"ytdl-core": "^1.0.3",
 		"ytsr": "^0.1.10"
 	}
