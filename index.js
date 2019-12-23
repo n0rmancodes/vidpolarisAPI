@@ -5,7 +5,10 @@ const ytsr = require('ytsr');
 let filter;
 const fetchComments = require('youtube-comment-api')
 const http = require('http'); 
+const translate = require('@vitalets/google-translate-api');
 const url = require('url');
+const ytScraper = require("yt-scraper")
+var ytpl = require('ytpl');
 var fetchVideoInfo = require('youtube-info');
 var youtubeSuggest = require('youtube-suggest')
 http.createServer(onrequest).listen(process.env.PORT || 3000);
@@ -15,7 +18,7 @@ console.log("============================")
 function onrequest(request, response) {
 	var oUrl = url.parse(request.url, true);
 	
-	if (!oUrl.query.url && !oUrl.query.search && !oUrl.query.suggest) {
+	if (!oUrl.query.url && !oUrl.query.search && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints"
@@ -28,6 +31,27 @@ function onrequest(request, response) {
 		return;
 	} else {
 		var dUrl = oUrl.query.url;
+	}
+	
+	if (oUrl.query.translate) {
+		if (!oUrl.query.to) {
+			var lang = "en"
+		} else {
+			var lang = oUrl.query.to;
+		}
+		var transText = oUrl.query.translate;
+		translate(transText, {to: lang}).then(res => {
+			var json = JSON.stringify ({
+				res
+			})
+			response.writeHead(200, {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*"
+			});
+			response.end(json);
+			return;
+		})
+		return;
 	}
 	
 	if (oUrl.query.smart == "1") {
@@ -108,6 +132,23 @@ function onrequest(request, response) {
 			response.end(json);
 			return;
 		})
+		return;
+	}
+	
+	if (oUrl.query.playlistId) {
+		var id = oUrl.query.playlistId
+		ytpl(oUrl.query.playlistId, function(err, playlist) {
+			if(err) throw err;
+			var json = JSON.stringify ({
+				playlist
+			})
+			response.writeHead(200, {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*"
+			});
+			response.end(json);
+			return;
+		});
 		return;
 	}
 	
