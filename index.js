@@ -344,8 +344,10 @@ function onrequest(request, response) {
 		}
 		var parsed = url.parse(dUrl)
 		var id = parsed.search.substring(3)
-		fetchComments(id)
-			.then(commentPage => {
+		if (oUrl.query.token) {
+			var token = oUrl.query.token;
+			fetchComments(id, token)
+				.then(commentPage => {
 					var json = JSON.stringify({
 						"comments": commentPage.comments,
 						"npToken": commentPage.nextPageToken
@@ -355,8 +357,21 @@ function onrequest(request, response) {
 						"Access-Control-Allow-Origin": "*"
 					});
 					response.end(json);
-					return;
-			})
+				})
+		} else {
+			fetchComments(id)
+				.then(commentPage => {
+					var json = JSON.stringify({
+						"comments": commentPage.comments,
+						"npToken": commentPage.nextPageToken
+					})
+					response.writeHead(200, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					});
+					response.end(json);
+				})
+		}
 		return;
 	}
 	
