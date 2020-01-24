@@ -1,5 +1,5 @@
-console.log("vidpolaris API")
-console.log("booting up....")
+console.log("vidpolaris API");
+console.log("booting up....");
 const ytdl = require('ytdl-core');
 const ytsr = require('ytsr');
 let filter;
@@ -7,13 +7,13 @@ const fetchComments = require('youtube-comment-api')
 const http = require('http'); 
 const translate = require('@vitalets/google-translate-api');
 const url = require('url');
-const ytScraper = require("yt-scraper")
-var ytpl = require('ytpl');
-var fetchVideoInfo = require('youtube-info');
-var youtubeSuggest = require('youtube-suggest')
+const ytScraper = require("yt-scraper");
+const ytpl = require('ytpl');
+const fetchVideoInfo = require('youtube-info');
+const youtubeSuggest = require('youtube-suggest');
 http.createServer(onrequest).listen(process.env.PORT || 3000);
-console.log("listening on port 3000")
-console.log("============================")
+console.log("listening on port 3000");
+console.log("============================");
 
 function onrequest(request, response) {
 	var oUrl = url.parse(request.url, true);
