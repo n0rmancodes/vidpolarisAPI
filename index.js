@@ -11,6 +11,7 @@ const ytScraper = require("yt-scraper");
 const ytpl = require('ytpl');
 const fetchVideoInfo = require('youtube-info');
 const youtubeSuggest = require('youtube-suggest');
+const req = require('request');
 http.createServer(onrequest).listen(process.env.PORT || 3000);
 console.log("listening on port 3000");
 console.log("============================");
@@ -18,7 +19,7 @@ console.log("============================");
 function onrequest(request, response) {
 	var oUrl = url.parse(request.url, true);
 	
-	if (!oUrl.query.url && !oUrl.query.search && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate) {
+	if (!oUrl.query.url && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints"
@@ -31,6 +32,49 @@ function onrequest(request, response) {
 		return;
 	} else {
 		var dUrl = oUrl.query.url;
+	}
+	
+	if (oUrl.query.trending) {
+		if (oUrl.query.trending == "US" || oUrl.query.trending == "1") {
+			req("https://invidio.us/api/v1/trending", function (error, res, body) {
+				if (error) {
+					var data = JSON.stringify({
+						"err": "API error"
+					})
+					response.writeHead(404, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					})
+					response.end(data);
+				} else {
+					response.writeHead(200, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					})
+					response.end(body);
+				}
+			})
+		} else {
+			req("https://invidio.us/api/v1/trending?region=" + oUrl.query.trending, function (error, res, body) {
+				if (error) {
+					var data = JSON.stringify({
+						"err": "API error"
+					})
+					response.writeHead(404, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					})
+					response.end(data);
+				} else {
+					response.writeHead(200, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					})
+					response.end(body);
+				}
+			})
+		}
+		return;
 	}
 	
 	if (oUrl.query.translate) {
@@ -152,59 +196,6 @@ function onrequest(request, response) {
 		return;
 	}
 	
-	if (oUrl.query.video === "1") {
-		var dUrl = oUrl.query.url;
-		if (!dUrl.includes("http")) {
-			var json = JSON.stringify ({
-				"err": "mustBeUrl"
-			})
-			response.writeHead(200, {
-				"Content-Type": "application/json",
-				"Access-Control-Allow-Origin": "*"
-			});
-			response.end(json);
-			console.log("invalid request")
-			return;
-		}
-		ytdl(dUrl, function(err, info) {
-			if (err) {
-				console.log("error!: " + err)
-				var json = JSON.stringify ({
-					"err": err
-				})
-				response.writeHead(404, {
-					"Content-Type": "application/json",
-					"Access-Control-Allow-Origin": "*"
-				});
-				response.end(json)
-				return;
-			}
-			if (!info.formats) {
-				console.log("no formats found")
-				var json = JSON.stringify ({
-					"err": "noFormats"
-				})
-				response.writeHead(404, {
-					"Content-Type": "application/json",
-					"Access-Control-Allow-Origin": "*"
-				});
-				response.end(json)
-				return;
-			}
-			let aFormats = ytdl.filterFormats(info.formats, 'videoonly');
-			var json = JSON.stringify ({
-				datainfo: aFormats,
-				info
-			})
-			response.writeHead(200, {
-				"Content-Type": "application/json",
-				"Access-Control-Allow-Origin": "*"
-			});
-			response.end(json);
-		})
-		return;
-	}
-	
 	if (oUrl.query.md === "1") {
 		var md = oUrl.query.url
 		var yt = url.parse(md);
@@ -275,64 +266,11 @@ function onrequest(request, response) {
 		return;
 	}
 	
-	if (oUrl.query.audio === "1") {
+	if (oUrl.query.comments == "1") {
 		var dUrl = oUrl.query.url;
 		if (!dUrl.includes("http")) {
 			var json = JSON.stringify ({
-				"err": "mustBeUrl"
-			})
-			response.writeHead(404, {
-				"Content-Type": "application/json",
-				"Access-Control-Allow-Origin": "*"
-			});
-			response.end(json);
-			console.log("invalid request")
-			return;
-		}
-		ytdl(dUrl, function(err, info) {
-			if (err) {
-				console.log("error!: " + err)
-				var json = JSON.stringify ({
-					"err": err
-				})
-				response.writeHead(404, {
-					"Content-Type": "application/json",
-					"Access-Control-Allow-Origin": "*"
-				});
-				response.end(json)
-				return;
-			}
-			if (!info.formats) {
-				console.log("no formats found")
-				var json = JSON.stringify ({
-					"err": "noFormats"
-				})
-				response.writeHead(404, {
-					"Content-Type": "application/json",
-					"Access-Control-Allow-Origin": "*"
-				});
-				response.end(json)
-				return;
-			}
-			let aFormats = ytdl.filterFormats(info.formats, 'audioonly');
-			var json = JSON.stringify ({
-				datainfo: aFormats,
-				info
-			})
-			response.writeHead(200, {
-				"Content-Type": "application/json",
-				"Access-Control-Allow-Origin": "*"
-			});
-			response.end(json);
-		})
-		return;
-	}
-	
-	if (oUrl.query.comments === "1") {
-		var dUrl = oUrl.query.url;
-		if (!dUrl.includes("http")) {
-			var json = JSON.stringify ({
-				"err": "mustBeUrl"
+				"err": "mustHaveUrl"
 			})
 			response.writeHead(404, {
 				"Content-Type": "application/json",
@@ -426,6 +364,55 @@ function onrequest(request, response) {
 				response.end(json);
 			})
 		}
+		return;
+	}
+	
+	if (oUrl.query.channelId) {
+		req("https://invidio.us/api/v1/channels/" + oUrl.query.channelId, function (error, res, body) {
+			if (error) {
+				var data = JSON.stringify({
+					"err": "API error"
+				})
+				response.writeHead(404, {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*"
+				})
+				response.end(data);
+			} else {
+				response.writeHead(200, {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*"
+				})
+				response.end(body);
+			}
+		})
+		return;
+	}
+	
+	if (oUrl.query.channelVideos) {
+		if (!oUrl.query.sortBy) {
+			var sort = "latest";
+		} else {
+			var sort = oUrl.query.sortBy;
+		}
+		req("https://invidio.us/api/v1/channels/videos/" + oUrl.query.channelVideos + "/?sort_by=" + sort, function (error, res, body) {
+			if (error) {
+				var data = JSON.stringify({
+					"err": "API error"
+				})
+				response.writeHead(404, {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*"
+				})
+				response.end(data);
+			} else {
+				response.writeHead(200, {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*"
+				})
+				response.end(body);
+			}
+		})
 		return;
 	}
 	
