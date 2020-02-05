@@ -31,7 +31,7 @@
 		"youtube-info": "^1.3.2",
 		"youtube-suggest": "^1.1.0",
 		"yt-scraper": "^1.1.0",
-		"ytdl-core": "^1.0.3",
+		"ytdl-core": "^1.0.7",
 		"ytpl": "^0.1.19",
 		"ytsr": "^0.1.10"
 	}
