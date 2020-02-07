@@ -19,7 +19,7 @@ console.log("============================");
 function onrequest(request, response) {
 	var oUrl = url.parse(request.url, true);
 	
-	if (!oUrl.query.url && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate) {
+	if (!oUrl.query.url && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate && !oUrl.query.thumb) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints"
@@ -413,6 +413,11 @@ function onrequest(request, response) {
 				response.end(body);
 			}
 		})
+		return;
+	}
+	
+	if (oUrl.query.thumb) {
+		req('https://invidio.us/vi/' + oUrl.query.thumb + "/maxres.jpg").pipe(response);
 		return;
 	}
 	
