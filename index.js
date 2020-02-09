@@ -19,7 +19,7 @@ console.log("============================");
 function onrequest(request, response) {
 	var oUrl = url.parse(request.url, true);
 	
-	if (!oUrl.query.url && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate && !oUrl.query.thumb) {
+	if (!oUrl.query.url && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.subs && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate && !oUrl.query.thumb) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints"
@@ -418,6 +418,28 @@ function onrequest(request, response) {
 	
 	if (oUrl.query.thumb) {
 		req('https://invidio.us/vi/' + oUrl.query.thumb + "/maxres.jpg").pipe(response);
+		return;
+	}
+	
+	if (oUrl.query.subs) {
+		if (!oUrl.query.label) {
+			req("https://invidio.us/api/v1/captions/" + oUrl.query.subs, function(error, res, body) {
+				response.writeHead(200, {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*"
+				})
+				response.end(body);
+				return;
+			})
+		} else {
+			req("https://invidio.us/api/v1/captions/" + oUrl.query.subs + "/?label=" + oUrl.query.label, function(error, res, body) {
+				response.writeHead(200, {
+					"Access-Control-Allow-Origin": "*"
+				})
+				response.end(body);
+				return;
+			})
+		}
 		return;
 	}
 	
