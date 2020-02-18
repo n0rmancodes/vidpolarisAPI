@@ -395,7 +395,12 @@ function onrequest(request, response) {
 		} else {
 			var sort = oUrl.query.sortBy;
 		}
-		req("https://invidio.us/api/v1/channels/videos/" + oUrl.query.channelVideos + "/?sort_by=" + sort, function (error, res, body) {
+		if (!oUrl.query.page) {
+			var page = 1;
+		} else {
+			var page = oUrl.query.page;
+		}
+		req("https://invidio.us/api/v1/channels/videos/" + oUrl.query.channelVideos + "/?sort_by=" + sort + "&page=" + page, function (error, res, body) {
 			if (error) {
 				var data = JSON.stringify({
 					"err": "API error"
