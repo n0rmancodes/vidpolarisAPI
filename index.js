@@ -77,6 +77,70 @@ function onrequest(request, response) {
 		return;
 	}
 	
+//	if (oUrl.query.reccomended == "1") {
+//		if (request.method == "GET") {
+//			var data = JSON.stringify({
+//				"err": "invalidRequestMethod"
+//			})
+//			response.writeHead(404, {
+//				"Content-Type": "application/json",
+//				"Access-Control-Allow-Origin": "*"
+//			})
+//			response.end(data);
+//		} else {
+//			if (!request.headers.history) {
+//				var data = JSON.stringify({
+//					"err": "invalidHeaders"
+//				})
+//				response.writeHead(404, {
+//					"Content-Type": "application/json",
+//					"Access-Control-Allow-Origin": "*"
+//				})
+//			} else {
+//				
+//			}
+//		}
+//		return;
+//	}
+	
+	//if (oUrl.query.reddit) {
+	//	req("https://reddit.com/r/videos/top.json", function (error, res, body) {
+	//		if (error) {
+	//			var data = JSON.stringify({
+	//				"err": "API error"
+	//			})
+	//			response.writeHead(404, {
+	//				"Content-Type": "application/json",
+	//				"Access-Control-Allow-Origin": "*"
+	//			})
+	//			response.end(data);
+	//		} else {
+	//			var data = JSON.parse(body);
+	//			fetchVideoInfo(data.data.children[0].data.url.substring(17), function (err, videoInfo) {
+	//				var meta = videoInfo;
+	//				var json = JSON.stringify({
+	//					"url": data.data.children[0].data.url,
+	//					"metadata": meta
+	//				})
+	//				response.writeHead(200, {
+	//					"Content-Type": "application/json",
+	//					"Access-Control-Allow-Origin": "*"
+	//				});
+	//				response.end(json);
+	//			})
+	//			return;
+	//			
+	//			console.log(data.data.children[1].data.url.substring(17))
+	//			response.writeHead(200, {
+	//				"Content-Type": "application/json",
+	//				"Access-Control-Allow-Origin": "*"
+	//			})
+	//			response.end(json);
+	//		}
+	//	})
+	//	return;
+	//}
+	
 	if (oUrl.query.translate) {
 		if (!oUrl.query.to) {
 			var lang = "en"
@@ -437,13 +501,8 @@ function onrequest(request, response) {
 				return;
 			})
 		} else {
-			req("https://invidio.us/api/v1/captions/" + oUrl.query.subs + "/?label=" + oUrl.query.label, function(error, res, body) {
-				response.writeHead(200, {
-					"Access-Control-Allow-Origin": "*"
-				})
-				response.end(body);
-				return;
-			})
+			req("https://invidio.us/api/v1/captions/" + oUrl.query.subs + "/?label=" + oUrl.query.label).pipe(response);
+			return;
 		}
 		return;
 	}
