@@ -23,7 +23,7 @@ function onrequest(request, response) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
-			"version": "1.1.0"
+			"version": "1.1.1"
 		})
 		response.writeHead(404, {
 			"Content-Type": "application/json",
@@ -36,44 +36,86 @@ function onrequest(request, response) {
 	}
 	
 	if (oUrl.query.trending) {
-		if (oUrl.query.trending == "US" || oUrl.query.trending == "1") {
-			req("https://invidio.us/api/v1/trending", function (error, res, body) {
-				if (error) {
-					var data = JSON.stringify({
-						"err": "API error"
-					})
-					response.writeHead(404, {
-						"Content-Type": "application/json",
-						"Access-Control-Allow-Origin": "*"
-					})
-					response.end(data);
-				} else {
-					response.writeHead(200, {
-						"Content-Type": "application/json",
-						"Access-Control-Allow-Origin": "*"
-					})
-					response.end(body);
-				}
-			})
+		if (!oUrl.query.type) {
+			if (oUrl.query.trending == "US" || oUrl.query.trending == "1") {
+				req("https://invidio.us/api/v1/trending", function (error, res, body) {
+					if (error) {
+						var data = JSON.stringify({
+							"err": "API error"
+						})
+						response.writeHead(404, {
+							"Content-Type": "application/json",
+							"Access-Control-Allow-Origin": "*"
+						})
+						response.end(data);
+					} else {
+						response.writeHead(200, {
+							"Content-Type": "application/json",
+							"Access-Control-Allow-Origin": "*"
+						})
+						response.end(body);
+					}
+				})
+			} else {
+				req("https://invidio.us/api/v1/trending?region=" + oUrl.query.trending, function (error, res, body) {
+					if (error) {
+						var data = JSON.stringify({
+							"err": "API error"
+						})
+						response.writeHead(404, {
+							"Content-Type": "application/json",
+							"Access-Control-Allow-Origin": "*"
+						})
+						response.end(data);
+					} else {
+						response.writeHead(200, {
+							"Content-Type": "application/json",
+							"Access-Control-Allow-Origin": "*"
+						})
+						response.end(body);
+					}
+				})
+			}
 		} else {
-			req("https://invidio.us/api/v1/trending?region=" + oUrl.query.trending, function (error, res, body) {
-				if (error) {
-					var data = JSON.stringify({
-						"err": "API error"
-					})
-					response.writeHead(404, {
-						"Content-Type": "application/json",
-						"Access-Control-Allow-Origin": "*"
-					})
-					response.end(data);
-				} else {
-					response.writeHead(200, {
-						"Content-Type": "application/json",
-						"Access-Control-Allow-Origin": "*"
-					})
-					response.end(body);
-				}
-			})
+			if (oUrl.query.trending == "US" || oUrl.query.trending == "1") {
+				req("https://invidio.us/api/v1/trending?type=" + oUrl.query.type, function (error, res, body) {
+					if (error) {
+						var data = JSON.stringify({
+							"err": "API error"
+						})
+						response.writeHead(404, {
+							"Content-Type": "application/json",
+							"Access-Control-Allow-Origin": "*"
+						})
+						response.end(data);
+					} else {
+						response.writeHead(200, {
+							"Content-Type": "application/json",
+							"Access-Control-Allow-Origin": "*"
+						})
+						response.end(body);
+					}
+				})
+			} else {
+				req("https://invidio.us/api/v1/trending?region=" + oUrl.query.trending + "&type=" + oUrl.query.type, function (error, res, body) {
+					if (error) {
+						var data = JSON.stringify({
+							"err": "API error"
+						})
+						response.writeHead(404, {
+							"Content-Type": "application/json",
+							"Access-Control-Allow-Origin": "*"
+						})
+						response.end(data);
+					} else {
+						response.writeHead(200, {
+							"Content-Type": "application/json",
+							"Access-Control-Allow-Origin": "*"
+						})
+						response.end(body);
+					}
+				})
+			}
 		}
 		return;
 	}
