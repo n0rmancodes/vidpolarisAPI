@@ -22,7 +22,8 @@ function onrequest(request, response) {
 	if (!oUrl.query.url && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.subs && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate && !oUrl.query.thumb) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
-			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints"
+			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
+			"version": "1.1.0"
 		})
 		response.writeHead(404, {
 			"Content-Type": "application/json",
