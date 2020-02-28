@@ -19,6 +19,12 @@ the api for my [vidpolaris](https://n0rmancodes.github.io/vidpolaris) project, b
 
 ## endpoints
 
+### api version, endpoints, etc.
+
+```http://[host]/```
+
+[test this command](https://vidpolaris.herokuapp.com/)
+
 ### trending data (via ```invidious```)
 
 ```http://[host]/?trending=[region]&type=[type]```
