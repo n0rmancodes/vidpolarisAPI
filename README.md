@@ -76,7 +76,7 @@ url*: video link (in https://youtube.com/watch?v= format)
 search*: give any query and it turns back out 10 or less results
 ```
 
-[test this command](https://vidpolaris.herokuapp.com/?search=test+video)
+[test this command](https://vidpolaris.herokuapp.com/?search=test+video) => gives 10 results (or less) of videos that match "test video"
 
 ### search suggestions
 
@@ -86,6 +86,8 @@ search*: give any query and it turns back out 10 or less results
 suggest*: give any query and it gives you 10 or less suggestions
 ```
 
+[test this command](https://vidpolaris.herokuapp.com/?search=test+video) => gives 10 results (or less) of search suggestions that match "test video"
+
 ### video comments
 
 ```http://[host]/?comments=1&token=[token]&url=[url]```
@@ -94,10 +96,10 @@ suggest*: give any query and it gives you 10 or less suggestions
 ```
 comments*: 1
 url*: video link (in https://youtube.com/watch?v= format)
-token: continuation after 20 comments, given in first response
+token: continuation after 20 comments, given in first response (if any)
 ```
 
-[test this command](https://vidpolaris.herokuapp.com/?comments=1&url=https://youtube.com/watch?v=yyDUC1LUXSU)
+[test this command](https://vidpolaris.herokuapp.com/?comments=1&url=https://youtube.com/watch?v=Bey4XXJAqS8) => gives 20 comments or less on the Robert Thicke song "Blurred Lines"
 
 ### specific video itag
 
@@ -108,7 +110,7 @@ itag*: itag, found in smart response
 url*: video link (in https://youtube.com/watch?v= format)
 ```
 
-[test this command](https://vidpolaris.herokuapp.com/?itag=135&url=https://youtube.com/watch?v=yyDUC1LUXSU)
+[test this command](https://vidpolaris.herokuapp.com/?itag=248&url=https://youtube.com/watch?v=Bey4XXJAqS8) => gives 480p itag of the Robert Thicke song "Blurred Lines"
 
 ### channel information (via ```invidious```)
 
@@ -118,18 +120,18 @@ url*: video link (in https://youtube.com/watch?v= format)
 channelId*: youtube channel id
 ```
 
-[test this command](https://vidpolaris.herokuapp.com/?channelId=UCDjb0dwTUZKZjJgSd1kJpBg)
+[test this command](https://vidpolaris.herokuapp.com/?channelId=UCDjb0dwTUZKZjJgSd1kJpBg) => returns channel information for RobinThickeVevo
 
 ### channel videos (via ```invidious```)
 
-```http://[host]/?channelId=[id]```
+```http://[host]/?channelVideos=[id]```
 
 ```
 channelVideos*: youtube channel id
 page: a number (default: 1)
 ```
 
-[test this command](https://vidpolaris.herokuapp.com/?channelVideos=UCDjb0dwTUZKZjJgSd1kJpBg)
+[test this command](https://vidpolaris.herokuapp.com/?channelVideos=UCDjb0dwTUZKZjJgSd1kJpBg) => returns channel videos of the channel RobinThickeVevo
 
 ### video thumbnails in the highest quality (via ```invidious```)
 
@@ -139,9 +141,9 @@ page: a number (default: 1)
 thumb*: id of a video
 ```
 
-[test this command](https://vidpolaris.herokuapp.com/?thumb=yyDUC1LUXSU)
+[test this command](https://vidpolaris.herokuapp.com/?thumb=Bey4XXJAqS8) => returns thumbnail of a random video
 
-### video captions
+### video captions (via ```invidious```)
 
 ```http://[host]/?subs=[id]&label=[label]```
 
@@ -149,5 +151,9 @@ thumb*: id of a video
 subs: id of a video
 label: provided by first response
 ```
+
+[test this command (variation 1)](https://vidpolaris.herokuapp.com/?subs=Bey4XXJAqS8) => returns all possible subs of a random video
+
+[test this command (variation 2)](https://vidpolaris.herokuapp.com/?subs=Bey4XXJAqS8&label=Chinese (China)) => returns chinese subs of a random video
 
 *this command does not seem to work currently in the vidpolaris player*
