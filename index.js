@@ -23,7 +23,7 @@ function onrequest(request, response) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
-			"version": "1.1.1"
+			"version": "1.1.3"
 		})
 		response.writeHead(404, {
 			"Content-Type": "application/json",
@@ -250,11 +250,27 @@ function onrequest(request, response) {
 	
 	if (oUrl.query.search) {
 		var search = oUrl.query.search;
-		ytsr.getFilters(search, function(err, filters) {
-			filter = filters.get('Type').find(o => o.name === 'Video');
+		if (oUrl.query.type == "video") {
+			ytsr.getFilters(search, function(err, filters) {
+				filter = filters.get('Type').find(o => o.name === 'Video');
+				var options = {
+					limit: 60,
+					nextpageRef: filter.ref,
+				}
+				ytsr(search, options, function(err, searchResults) {
+					var json = JSON.stringify ({
+						searchResults
+					})
+					response.writeHead(200, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					});
+					response.end(json);
+				})
+			})
+		} else if (!oUrl.query.type) {
 			var options = {
-				limit: 10,
-				nextpageRef: filter.ref,
+				limit: 60
 			}
 			ytsr(search, options, function(err, searchResults) {
 				var json = JSON.stringify ({
@@ -266,7 +282,7 @@ function onrequest(request, response) {
 				});
 				response.end(json);
 			})
-		})
+		}
 		return;
 	}
 	

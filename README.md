@@ -84,15 +84,18 @@ url*: video link (in https://youtube.com/watch?v= format)
 
 [test this command](https://vidpolaris.herokuapp.com/?smart=1&url=https://www.youtube.com/watch?v=Bey4XXJAqS8) => gets highest quality itags of a video
 
-### search videos anonymously (via ```TimeForANinja/ytsr```)
+### search videos (via ```TimeForANinja/ytsr```)
 
 ```http://[host]/?search=[query]```
 
 ```
 search*: give any query and it turns back out 10 or less results
+type: video, playlist, channel
 ```
 
-[test this command](https://vidpolaris.herokuapp.com/?search=test+video) => gives 10 results (or less) of videos that match "test video"
+[test this command (variation 1)](https://vidpolaris.herokuapp.com/?search=test+video&type=video) => gives 10 results (or less) of videos that match "test video"
+
+[test this command (variation 2)](https://vidpolaris.herokuapp.com/?search=test) => gives 10 results (or less) of results that match "test video"
 
 ### search suggestions (via ```youtube-suggest```)
 
