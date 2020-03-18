@@ -1,4 +1,4 @@
-console.log("vidpolaris API [version 1.1.4]");
+console.log("vidpolaris API [version 1.1.5]");
 console.log("")
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("")
@@ -15,7 +15,7 @@ const youtubeSuggest = require('youtube-suggest');
 const req = require('request');
 http.createServer(onrequest).listen(process.env.PORT || 3000);
 console.clear();
-console.log("vidpolaris API [version 1.1.4]");
+console.log("vidpolaris API [version 1.1.5]");
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("listening on port " + (process.env.PORT || 3000));
 console.log("============================");
@@ -27,7 +27,7 @@ function onrequest(request, response) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
-			"version": "1.1.4"
+			"version": "1.1.5"
 		})
 		response.writeHead(404, {
 			"Content-Type": "application/json",
@@ -348,37 +348,11 @@ function onrequest(request, response) {
 				})
 				response.end(data);
 			} else {
-				if (!oUrl.query.pure == "1") {
-					var j = JSON.parse(body);
-					var viewCount = j.viewCount;
-					var likeCount = j.likeCount;
-					var dislikeCount = j.dislikeCount;
-					var subCountTxt = j.subCountText;
-					if (j.isListed == false) {
-						var unlisted = true;
-					} else {
-						var unlisted = false;
-					}
-					var data = JSON.stringify({
-						"meta": {
-							"likeCount": likeCount,
-							"dislikeCount": dislikeCount,
-							"views": viewCount,
-							"unlisted": unlisted
-						}
-					})
-					response.writeHead(200, {
-						"Content-Type": "application/json",
-						"Access-Control-Allow-Origin": "*"
-					})
-					response.end(data);
-				} else {
-					response.writeHead(200, {
-						"Content-Type": "application/json",
-						"Access-Control-Allow-Origin": "*"
-					})
-					response.end(body);
-				}
+				response.writeHead(200, {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*"
+				})
+				response.end(body);
 			}
 		})
 		return;
