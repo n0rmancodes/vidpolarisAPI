@@ -1,6 +1,8 @@
 # vidpolarisAPI
 the api for my [vidpolaris](https://n0rmancodes.github.io/vidpolaris) project, based off of [my old ytdl api](https://github.com/n0rmancodes/YTDL-API).
 
+_*this is not affiliated in any way with google or youtube! use at your own risk*_
+
 ```
 * = required parameter
 ```
