@@ -1,38 +1,34 @@
 {
-	"name": "YTDL-API",
-	"version": "1.1.0",
-	"description": "ytdl JSON api",
-	"main": "index.js",
-	"scripts": {
-		"start": "node ."
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/n0rmancodes/taylor-backend.git"
-	},
-	"keywords": [
-		"youtube-dl"
-	],
-	"author": "n0rmancodes",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/n0rmancodes/taylor-backend/issues"
-	},
-	"homepage": "https://github.com/n0rmancodes/taylor-backend#readme",
-	"dependencies": {
-		"@vitalets/google-translate-api": "^3.0.0",
-		"cryptiles": "^4.1.3",
-		"data.task": "^3.1.2",
-		"hoek": "^6.1.3",
-		"lodash": "^4.17.15",
-		"miniget": "^1.6.1",
-		"request": "^2.88.0",
-		"youtube-comment-api": "^3.0.2",
-		"youtube-info": "^1.3.2",
-		"youtube-suggest": "^1.1.0",
-		"yt-scraper": "^1.1.0",
-		"ytdl-core": "^1.0.7",
-		"ytpl": "^0.1.19",
-		"ytsr": "^0.1.10"
-	}
+  "name": "vidpolaris-api",
+  "version": "1.4.0",
+  "description": "ytdl JSON api",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/n0rmancodes/taylor-backend.git"
+  },
+  "keywords": [
+    "youtube-dl"
+  ],
+  "author": "n0rmancodes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/n0rmancodes/taylor-backend/issues"
+  },
+  "homepage": "https://github.com/n0rmancodes/taylor-backend#readme",
+  "dependencies": {
+    "@vitalets/google-translate-api": "^3.0.0",
+    "get-youtube-id": "^1.0.1",
+    "http": "0.0.0",
+    "request": "^2.88.2",
+    "youtube-comment-api": "^3.0.2",
+    "youtube-suggest": "^1.1.0",
+    "ytdl-core": "^1.0.9",
+    "ytpl": "^0.1.20",
+    "ytsr": "^0.1.11"
+  },
+  "devDependencies": {}
 }

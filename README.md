@@ -50,7 +50,7 @@ url*: video link (in https://youtube.com/watch?v= format)
 
 [test this command](https://vidpolaris.herokuapp.com/?info=1&url=https://www.youtube.com/watch?v=Bey4XXJAqS8) => streaming links and info of a test video
 
-### view/like/dislike count & other info (via ```youtube-info```)
+### view/like/dislike count & other info (via ```invidious```)
 
 ```http://[host]/?md=1&url=[url]```
 

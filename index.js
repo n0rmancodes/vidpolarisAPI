@@ -1,4 +1,7 @@
-console.log("vidpolaris API");
+console.log("vidpolaris API [version 1.1.4]");
+console.log("")
+console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
+console.log("")
 console.log("booting up....");
 const ytdl = require('ytdl-core');
 const ytsr = require('ytsr');
@@ -7,13 +10,15 @@ const fetchComments = require('youtube-comment-api')
 const http = require('http'); 
 const translate = require('@vitalets/google-translate-api');
 const url = require('url');
-const ytScraper = require("yt-scraper");
 const ytpl = require('ytpl');
-const fetchVideoInfo = require('youtube-info');
 const youtubeSuggest = require('youtube-suggest');
 const req = require('request');
+const getYouTubeID = require('get-youtube-id');
 http.createServer(onrequest).listen(process.env.PORT || 3000);
-console.log("listening on port 3000");
+console.clear();
+console.log("vidpolaris API [version 1.1.4]");
+console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
+console.log("listening on port " + (process.env.PORT || 3000));
 console.log("============================");
 
 function onrequest(request, response) {
@@ -23,7 +28,7 @@ function onrequest(request, response) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
-			"version": "1.1.3"
+			"version": "1.1.4"
 		})
 		response.writeHead(404, {
 			"Content-Type": "application/json",
@@ -320,10 +325,7 @@ function onrequest(request, response) {
 	}
 	
 	if (oUrl.query.md === "1") {
-		var md = oUrl.query.url
-		var yt = url.parse(md);
-		var id = yt.search.substring(3);
-		if (!id) {
+		if (!oUrl.query.url) {
 			var json = JSON.stringify ({
 				"err": "noProperUrl"
 			})
@@ -335,29 +337,50 @@ function onrequest(request, response) {
 			console.log("invalid request")
 			return;
 		}
-		fetchVideoInfo(id, function (err, videoInfo) {
-			if (err) {
-				var json = JSON.stringify ({
-					"err": err
+		var id = oUrl.query.url.substring(32);
+		req("https://invidio.us/api/v1/videos/" + id, function (error, res, body) {
+			if (error) {
+				var data = JSON.stringify({
+					"err": "API error"
 				})
 				response.writeHead(404, {
 					"Content-Type": "application/json",
 					"Access-Control-Allow-Origin": "*"
-				});
-				response.end(json);
-				console.log("youtube-info err")
-				console.log(err)
-				return;
-			} else {
-				var json = JSON.stringify ({
-					"meta": videoInfo
 				})
-				response.writeHead(200, {
-					"Content-Type": "application/json",
-					"Access-Control-Allow-Origin": "*"
-				});
-				response.end(json);
-				return;
+				response.end(data);
+			} else {
+				if (!oUrl.query.pure == "1") {
+					var j = JSON.parse(body);
+					var viewCount = j.viewCount;
+					console.log(j.viewCount)
+					var likeCount = j.likeCount;
+					var dislikeCount = j.dislikeCount;
+					var subCountTxt = j.subCountText;
+					if (j.isListed == false) {
+						var unlisted = true;
+					} else {
+						var unlisted = false;
+					}
+					var data = JSON.stringify({
+						"meta": {
+							"likeCount": likeCount,
+							"dislikeCount": dislikeCount,
+							"views": viewCount,
+							"unlisted": unlisted
+						}
+					})
+					response.writeHead(200, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					})
+					response.end(data);
+				} else {
+					response.writeHead(200, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					})
+					response.end(body);
+				}
 			}
 		})
 		return;
