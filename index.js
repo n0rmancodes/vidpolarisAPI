@@ -336,7 +336,7 @@ function onrequest(request, response) {
 			console.log("invalid request")
 			return;
 		}
-		var id = oUrl.query.url.substring(32);
+		var id = oUrl.query.url.substring(28);
 		req("https://invidio.us/api/v1/videos/" + id, function (error, res, body) {
 			if (error) {
 				var data = JSON.stringify({
@@ -348,11 +348,37 @@ function onrequest(request, response) {
 				})
 				response.end(data);
 			} else {
-				response.writeHead(200, {
-					"Content-Type": "application/json",
-					"Access-Control-Allow-Origin": "*"
-				})
-				response.end(body);
+				if (!oUrl.query.pure == "1") {
+					var j = JSON.parse(body);
+					var viewCount = j.viewCount;
+					var likeCount = j.likeCount;
+					var dislikeCount = j.dislikeCount;
+					var subCountTxt = j.subCountText;
+					if (j.isListed == false) {
+						var unlisted = true;
+					} else {
+						var unlisted = false;
+					}
+					var data = JSON.stringify({
+						"meta": {
+							"likeCount": likeCount,
+							"dislikeCount": dislikeCount,
+							"views": viewCount,
+							"unlisted": unlisted
+						}
+					})
+					response.writeHead(200, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					})
+					response.end(data);
+				} else {
+					response.writeHead(200, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					})
+					response.end(body);
+				}
 			}
 		})
 		return;
