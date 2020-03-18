@@ -364,7 +364,8 @@ function onrequest(request, response) {
 							"likeCount": likeCount,
 							"dislikeCount": dislikeCount,
 							"views": viewCount,
-							"unlisted": unlisted
+							"unlisted": unlisted,
+							"subText": subCountTxt
 						}
 					})
 					response.writeHead(200, {
