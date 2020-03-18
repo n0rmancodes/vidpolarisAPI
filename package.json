@@ -21,7 +21,6 @@
   "homepage": "https://github.com/n0rmancodes/taylor-backend#readme",
   "dependencies": {
     "@vitalets/google-translate-api": "^3.0.0",
-    "get-youtube-id": "^1.0.1",
     "http": "0.0.0",
     "request": "^2.88.2",
     "youtube-comment-api": "^3.0.2",

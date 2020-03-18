@@ -13,7 +13,6 @@ const url = require('url');
 const ytpl = require('ytpl');
 const youtubeSuggest = require('youtube-suggest');
 const req = require('request');
-const getYouTubeID = require('get-youtube-id');
 http.createServer(onrequest).listen(process.env.PORT || 3000);
 console.clear();
 console.log("vidpolaris API [version 1.1.4]");
@@ -352,7 +351,6 @@ function onrequest(request, response) {
 				if (!oUrl.query.pure == "1") {
 					var j = JSON.parse(body);
 					var viewCount = j.viewCount;
-					console.log(j.viewCount)
 					var likeCount = j.likeCount;
 					var dislikeCount = j.dislikeCount;
 					var subCountTxt = j.subCountText;
