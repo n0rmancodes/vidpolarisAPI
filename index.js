@@ -27,7 +27,7 @@ function onrequest(request, response) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
-			"version": "1.1.5"
+			"version": "1.1.6"
 		})
 		response.writeHead(404, {
 			"Content-Type": "application/json",
@@ -258,7 +258,7 @@ function onrequest(request, response) {
 			ytsr.getFilters(search, function(err, filters) {
 				filter = filters.get('Type').find(o => o.name === 'Video');
 				var options = {
-					limit: 60,
+					limit: 100,
 					nextpageRef: filter.ref,
 				}
 				ytsr(search, options, function(err, searchResults) {
@@ -274,7 +274,8 @@ function onrequest(request, response) {
 			})
 		} else if (!oUrl.query.type) {
 			var options = {
-				limit: 60
+				limit: 100,
+				nextpageRef: filter.ref,
 			}
 			ytsr(search, options, function(err, searchResults) {
 				var json = JSON.stringify ({
