@@ -1,4 +1,4 @@
-console.log("vidpolaris API [version 1.1.5]");
+console.log("vidpolaris API [version 1.1.6]");
 console.log("")
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("")
@@ -15,7 +15,7 @@ const youtubeSuggest = require('youtube-suggest');
 const req = require('request');
 http.createServer(onrequest).listen(process.env.PORT || 3000);
 console.clear();
-console.log("vidpolaris API [version 1.1.5]");
+console.log("vidpolaris API [version 1.1.6]");
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("listening on port " + (process.env.PORT || 3000));
 console.log("============================");
@@ -274,8 +274,7 @@ function onrequest(request, response) {
 			})
 		} else if (!oUrl.query.type) {
 			var options = {
-				limit: 100,
-				nextpageRef: filter.ref,
+				limit: 100
 			}
 			ytsr(search, options, function(err, searchResults) {
 				var json = JSON.stringify ({
