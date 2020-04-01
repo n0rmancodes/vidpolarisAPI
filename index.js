@@ -1,4 +1,4 @@
-console.log("vidpolaris API [version 1.1.6]");
+console.log("vidpolaris API [version 1.1.7]");
 console.log("")
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("")
@@ -15,7 +15,7 @@ const youtubeSuggest = require('youtube-suggest');
 const req = require('request');
 http.createServer(onrequest).listen(process.env.PORT || 3000);
 console.clear();
-console.log("vidpolaris API [version 1.1.6]");
+console.log("vidpolaris API [version 1.1.7]");
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("listening on port " + (process.env.PORT || 3000));
 console.log("============================");
@@ -27,7 +27,7 @@ function onrequest(request, response) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
-			"version": "1.1.6"
+			"version": "1.1.7"
 		})
 		response.writeHead(404, {
 			"Content-Type": "application/json",
@@ -257,6 +257,42 @@ function onrequest(request, response) {
 		if (oUrl.query.type == "video") {
 			ytsr.getFilters(search, function(err, filters) {
 				filter = filters.get('Type').find(o => o.name === 'Video');
+				var options = {
+					limit: 100,
+					nextpageRef: filter.ref,
+				}
+				ytsr(search, options, function(err, searchResults) {
+					var json = JSON.stringify ({
+						searchResults
+					})
+					response.writeHead(200, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					});
+					response.end(json);
+				})
+			})
+		} else if (oUrl.query.type == "channel") {
+			ytsr.getFilters(search, function(err, filters) {
+				filter = filters.get('Type').find(o => o.name === 'Channel');
+				var options = {
+					limit: 100,
+					nextpageRef: filter.ref,
+				}
+				ytsr(search, options, function(err, searchResults) {
+					var json = JSON.stringify ({
+						searchResults
+					})
+					response.writeHead(200, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					});
+					response.end(json);
+				})
+			})
+		} else if (oUrl.query.type == "playlist") {
+			ytsr.getFilters(search, function(err, filters) {
+				filter = filters.get('Type').find(o => o.name === 'Playlist');
 				var options = {
 					limit: 100,
 					nextpageRef: filter.ref,
