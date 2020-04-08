@@ -1,5 +1,6 @@
-console.log("vidpolaris API [version 1.1.7]");
+console.log("vidpolaris API [version 1.1.8]");
 console.log("")
+console.log(getVidId("https://www.youtube.com/watch?v=A9RxplJJ72U&t=266s"))
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("")
 console.log("booting up....");
@@ -15,7 +16,7 @@ const youtubeSuggest = require('youtube-suggest');
 const req = require('request');
 http.createServer(onrequest).listen(process.env.PORT || 3000);
 console.clear();
-console.log("vidpolaris API [version 1.1.7]");
+console.log("vidpolaris API [version 1.1.8]");
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("listening on port " + (process.env.PORT || 3000));
 console.log("============================");
@@ -23,11 +24,11 @@ console.log("============================");
 function onrequest(request, response) {
 	var oUrl = url.parse(request.url, true);
 	
-	if (!oUrl.query.url && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.subs && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate && !oUrl.query.thumb) {
+	if (!oUrl.query.url && !oUrl.query.reddit && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.subs && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate && !oUrl.query.thumb) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
-			"version": "1.1.7"
+			"version": "1.1.8"
 		})
 		response.writeHead(404, {
 			"Content-Type": "application/json",
@@ -40,9 +41,22 @@ function onrequest(request, response) {
 	}
 	
 	if (oUrl.query.trending) {
+		if (!oUrl.query.inst) {
+			var bUrl = "https://invidio.us/"
+		} else if (oUrl.query.inst == "snopyta") {
+			var bUrl = "https://invidious.snopyta.org/"
+		} else if (oUrl.query.inst == "13ad") {
+			var bUrl = "https://invidious.13ad.de/"
+		} else if (oUrl.query.inst == "yew") {
+			var bUrl = "https://yewtu.be/"
+		} else if (oUrl.query.inst == "ggc") {
+			var bUrl = "https://invidious.ggc-project.de/"
+		} else {
+			var bUrl = "https://invidio.us/"
+		}
 		if (!oUrl.query.type) {
 			if (oUrl.query.trending == "US" || oUrl.query.trending == "1") {
-				req("https://invidio.us/api/v1/trending", function (error, res, body) {
+				req(bUrl + "api/v1/trending", function (error, res, body) {
 					if (error) {
 						var data = JSON.stringify({
 							"err": "API error"
@@ -61,7 +75,7 @@ function onrequest(request, response) {
 					}
 				})
 			} else {
-				req("https://invidio.us/api/v1/trending?region=" + oUrl.query.trending, function (error, res, body) {
+				req(bUrl + "api/v1/trending?region=" + oUrl.query.trending, function (error, res, body) {
 					if (error) {
 						var data = JSON.stringify({
 							"err": "API error"
@@ -82,7 +96,7 @@ function onrequest(request, response) {
 			}
 		} else {
 			if (oUrl.query.trending == "US" || oUrl.query.trending == "1") {
-				req("https://invidio.us/api/v1/trending?type=" + oUrl.query.type, function (error, res, body) {
+				req(bUrl + "api/v1/trending?type=" + oUrl.query.type, function (error, res, body) {
 					if (error) {
 						var data = JSON.stringify({
 							"err": "API error"
@@ -101,7 +115,7 @@ function onrequest(request, response) {
 					}
 				})
 			} else {
-				req("https://invidio.us/api/v1/trending?region=" + oUrl.query.trending + "&type=" + oUrl.query.type, function (error, res, body) {
+				req(bUrl +"api/v1/trending?region=" + oUrl.query.trending + "&type=" + oUrl.query.type, function (error, res, body) {
 					if (error) {
 						var data = JSON.stringify({
 							"err": "API error"
@@ -150,43 +164,27 @@ function onrequest(request, response) {
 //		return;
 //	}
 	
-	//if (oUrl.query.reddit) {
-	//	req("https://reddit.com/r/videos/top.json", function (error, res, body) {
-	//		if (error) {
-	//			var data = JSON.stringify({
-	//				"err": "API error"
-	//			})
-	//			response.writeHead(404, {
-	//				"Content-Type": "application/json",
-	//				"Access-Control-Allow-Origin": "*"
-	//			})
-	//			response.end(data);
-	//		} else {
-	//			var data = JSON.parse(body);
-	//			fetchVideoInfo(data.data.children[0].data.url.substring(17), function (err, videoInfo) {
-	//				var meta = videoInfo;
-	//				var json = JSON.stringify({
-	//					"url": data.data.children[0].data.url,
-	//					"metadata": meta
-	//				})
-	//				response.writeHead(200, {
-	//					"Content-Type": "application/json",
-	//					"Access-Control-Allow-Origin": "*"
-	//				});
-	//				response.end(json);
-	//			})
-	//			return;
-	//			
-	//			console.log(data.data.children[1].data.url.substring(17))
-	//			response.writeHead(200, {
-	//				"Content-Type": "application/json",
-	//				"Access-Control-Allow-Origin": "*"
-	//			})
-	//			response.end(json);
-	//		}
-	//	})
-	//	return;
-	//}
+	if (oUrl.query.reddit) {
+		let mDat = [];
+		req("https://reddit.com/r/videos/top.json?limit=100", function (error, res, body) {
+			var d = JSON.parse(body);
+			for (var c in d.data.children) {
+				if (!d.data.children[c].data.url) {return;}
+				if (d.data.children[c].data.url.includes("youtu")) {
+					var id = getVidId(d.data.children[c].data.url);
+					rDat.push(id);
+				} else {
+					// do nothing
+				}
+			}
+			response.writeHead(200, {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*"
+			});
+			response.end(JSON.stringify(rDat))
+		})
+		return;
+	}
 	
 	if (oUrl.query.translate) {
 		if (!oUrl.query.to) {
@@ -373,7 +371,20 @@ function onrequest(request, response) {
 			return;
 		}
 		var id = oUrl.query.url.substring(28);
-		req("https://invidio.us/api/v1/videos/" + id, function (error, res, body) {
+		if (!oUrl.query.inst) {
+			var bUrl = "https://invidio.us/"
+		} else if (oUrl.query.inst == "snopyta") {
+			var bUrl = "https://invidious.snopyta.org/"
+		} else if (oUrl.query.inst == "13ad") {
+			var bUrl = "https://invidious.13ad.de/"
+		} else if (oUrl.query.inst == "yew") {
+			var bUrl = "https://yewtu.be/"
+		} else if (oUrl.query.inst == "ggc") {
+			var bUrl = "https://invidious.ggc-project.de/"
+		} else {
+			var bUrl = "https://invidio.us/"
+		}
+		req(bUrl + "api/v1/videos/" + id, function (error, res, body) {
 			if (error) {
 				var data = JSON.stringify({
 					"err": "API error"
@@ -449,18 +460,6 @@ function onrequest(request, response) {
 	
 	if (oUrl.query.comments == "1") {
 		var dUrl = oUrl.query.url;
-		if (!dUrl.includes("http")) {
-			var json = JSON.stringify ({
-				"err": "mustHaveUrl"
-			})
-			response.writeHead(404, {
-				"Content-Type": "application/json",
-				"Access-Control-Allow-Origin": "*"
-			});
-			response.end(json);
-			console.log("invalid request")
-			return;
-		}
 		var parsed = url.parse(dUrl)
 		var id = parsed.search.substring(3)
 		if (oUrl.query.token) {
@@ -549,7 +548,20 @@ function onrequest(request, response) {
 	}
 	
 	if (oUrl.query.channelId) {
-		req("https://invidio.us/api/v1/channels/" + oUrl.query.channelId, function (error, res, body) {
+		if (!oUrl.query.inst) {
+			var bUrl = "https://invidio.us/"
+		} else if (oUrl.query.inst == "snopyta") {
+			var bUrl = "https://invidious.snopyta.org/"
+		} else if (oUrl.query.inst == "13ad") {
+			var bUrl = "https://invidious.13ad.de/"
+		} else if (oUrl.query.inst == "yew") {
+			var bUrl = "https://yewtu.be/"
+		} else if (oUrl.query.inst == "ggc") {
+			var bUrl = "https://invidious.ggc-project.de/"
+		} else {
+			var bUrl = "https://invidio.us/"
+		}
+		req(bUrl + "api/v1/channels/" + oUrl.query.channelId, function (error, res, body) {
 			if (error) {
 				var data = JSON.stringify({
 					"err": "API error"
@@ -581,7 +593,20 @@ function onrequest(request, response) {
 		} else {
 			var page = oUrl.query.page;
 		}
-		req("https://invidio.us/api/v1/channels/videos/" + oUrl.query.channelVideos + "/?sort_by=" + sort + "&page=" + page, function (error, res, body) {
+		if (!oUrl.query.inst) {
+			var bUrl = "https://invidio.us/"
+		} else if (oUrl.query.inst == "snopyta") {
+			var bUrl = "https://invidious.snopyta.org/"
+		} else if (oUrl.query.inst == "13ad") {
+			var bUrl = "https://invidious.13ad.de/"
+		} else if (oUrl.query.inst == "yew") {
+			var bUrl = "https://yewtu.be/"
+		} else if (oUrl.query.inst == "ggc") {
+			var bUrl = "https://invidious.ggc-project.de/"
+		} else {
+			var bUrl = "https://invidio.us/"
+		}
+		req(bUrl + "api/v1/channels/videos/" + oUrl.query.channelVideos + "/?sort_by=" + sort + "&page=" + page, function (error, res, body) {
 			if (error) {
 				var data = JSON.stringify({
 					"err": "API error"
@@ -603,24 +628,18 @@ function onrequest(request, response) {
 	}
 	
 	if (oUrl.query.thumb) {
-		req('https://invidio.us/vi/' + oUrl.query.thumb + "/maxres.jpg").pipe(response);
-		return;
-	}
-	
-	if (oUrl.query.subs) {
-		if (!oUrl.query.label) {
-			req("https://invidio.us/api/v1/captions/" + oUrl.query.subs, function(error, res, body) {
-				response.writeHead(200, {
-					"Content-Type": "application/json",
-					"Access-Control-Allow-Origin": "*"
-				})
-				response.end(body);
-				return;
-			})
-		} else {
-			req("https://invidio.us/api/v1/captions/" + oUrl.query.subs + "/?label=" + oUrl.query.label).pipe(response);
-			return;
+		if (!oUrl.query.inst) {
+			var bUrl = "https://invidio.us/"
+		} else if (oUrl.query.inst == "snopyta") {
+			var bUrl = "https://invidious.snopyta.org/"
+		} else if (oUrl.query.inst == "13ad") {
+			var bUrl = "https://invidious.13ad.de/"
+		} else if (oUrl.query.inst == "yew") {
+			var bUrl = "https://yewtu.be/"
+		} else if (oUrl.query.inst == "ggc") {
+			var bUrl = "https://invidious.ggc-project.de/"
 		}
+		req(bUrl + 'vi/' + oUrl.query.thumb + "/maxres.jpg").pipe(response);
 		return;
 	}
 	
@@ -671,4 +690,16 @@ function onrequest(request, response) {
 		});
 		response.end(json);
 	})
+}
+
+function getVidId(rUrl) {
+	if (rUrl.includes("youtube.com/watch?v=")) {
+		if (rUrl.includes("www.")) {
+			return rUrl.substring(32,43)
+		} else {
+			return rUrl.substring(23,39)
+		}
+	} else if (rUrl.includes("youtu.be")) {
+		return rUrl.substring(17,28)
+	}
 }
