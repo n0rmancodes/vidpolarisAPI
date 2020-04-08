@@ -1,6 +1,5 @@
 console.log("vidpolaris API [version 1.1.8]");
 console.log("")
-console.log(getVidId("https://www.youtube.com/watch?v=A9RxplJJ72U&t=266s"))
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("")
 console.log("booting up....");
@@ -165,7 +164,7 @@ function onrequest(request, response) {
 //	}
 	
 	if (oUrl.query.reddit) {
-		let mDat = [];
+		let rDat = [];
 		req("https://reddit.com/r/videos/top.json?limit=100", function (error, res, body) {
 			var d = JSON.parse(body);
 			for (var c in d.data.children) {
