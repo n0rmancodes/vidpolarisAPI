@@ -1,4 +1,4 @@
-console.log("vidpolaris API [version 1.1.8]");
+console.log("vidpolaris API [version 1.1.9]");
 console.log("")
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("")
@@ -15,7 +15,7 @@ const youtubeSuggest = require('youtube-suggest');
 const req = require('request');
 http.createServer(onrequest).listen(process.env.PORT || 3000);
 console.clear();
-console.log("vidpolaris API [version 1.1.8]");
+console.log("vidpolaris API [version 1.1.9]");
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("listening on port " + (process.env.PORT || 3000));
 console.log("============================");
@@ -23,11 +23,11 @@ console.log("============================");
 function onrequest(request, response) {
 	var oUrl = url.parse(request.url, true);
 	
-	if (!oUrl.query.url && !oUrl.query.reddit && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.subs && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate && !oUrl.query.thumb) {
+	if (!oUrl.query.url && !oUrl.query.reddit && !oUrl.query.redditSearch && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.subs && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate && !oUrl.query.thumb) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
-			"version": "1.1.8"
+			"version": "1.1.9"
 		})
 		response.writeHead(404, {
 			"Content-Type": "application/json",
@@ -170,8 +170,12 @@ function onrequest(request, response) {
 			for (var c in d.data.children) {
 				if (!d.data.children[c].data.url) {return;}
 				if (d.data.children[c].data.url.includes("youtu")) {
-					var id = getVidId(d.data.children[c].data.url);
-					rDat.push(id);
+					let dataBlock = {
+						"title": d.data.children[c].data.media.oembed.title,
+						"author": d.data.children[c].data.media.oembed.author_name,
+						"id": getVidId(d.data.children[c].data.url)
+					};
+					rDat.push(dataBlock);
 				} else {
 					// do nothing
 				}
@@ -180,8 +184,53 @@ function onrequest(request, response) {
 				"Content-Type": "application/json",
 				"Access-Control-Allow-Origin": "*"
 			});
-			response.end(JSON.stringify(rDat))
+			response.end(JSON.stringify(rDat));
 		})
+		return;
+	}
+	
+	if (oUrl.query.redditSearch) {
+		let searchResults = [];
+		if (oUrl.query.redditSearch.length == 11) {
+			req("https://reddit.com/search.json?q=url:youtu.be/" + oUrl.query.redditSearch, function(err,res,body) {
+				var d = JSON.parse(body);
+				if (err | d.data.dist == 0) {
+					var data = JSON.stringify({
+						"err": "noResults"
+					});
+					response.writeHead(404, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					});
+					response.end(data);
+				} else {
+					for (var c in d.data.children) {
+						var postDat = {
+							"postTitle": d.data.children[c].data.title,
+							"postScore": d.data.children[c].data.score,
+							"postSub": d.data.children[c].data.subreddit_name_prefixed,
+							"postAuthor": "/u/" + d.data.children[c].data.author,
+							"postLink": "https://reddit.com" + d.data.children[c].data.permalink
+						}
+						searchResults.push(postDat)
+					}
+					response.writeHead(200, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					});
+					response.end(JSON.stringify(searchResults));
+				}
+			})
+		} else {
+			var data = JSON.stringify({
+				"err": "notValid"
+			});
+			response.writeHead(404, {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*"
+			});
+			response.end(data);
+		}
 		return;
 	}
 	
