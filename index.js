@@ -170,12 +170,14 @@ function onrequest(request, response) {
 			for (var c in d.data.children) {
 				if (!d.data.children[c].data.url) {return;}
 				if (d.data.children[c].data.url.includes("youtu")) {
-					let dataBlock = {
-						"title": d.data.children[c].data.media.oembed.title,
-						"author": d.data.children[c].data.media.oembed.author_name,
-						"id": getVidId(d.data.children[c].data.url)
-					};
-					rDat.push(dataBlock);
+					if (d.data.children[c].data.media) {
+						let dataBlock = {
+							"title": d.data.children[c].data.media.oembed.title,
+							"author": d.data.children[c].data.media.oembed.author_name,
+							"id": getVidId(d.data.children[c].data.url)
+						}
+						rDat.push(dataBlock);
+					}
 				} else {
 					// do nothing
 				}
