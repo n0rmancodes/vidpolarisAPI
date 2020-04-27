@@ -1,4 +1,4 @@
-console.log("vidpolaris API [version 1.1.9]");
+console.log("vidpolaris API [version 1.2.0]");
 console.log("")
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("")
@@ -15,7 +15,7 @@ const youtubeSuggest = require('youtube-suggest');
 const req = require('request');
 http.createServer(onrequest).listen(process.env.PORT || 3000);
 console.clear();
-console.log("vidpolaris API [version 1.1.9]");
+console.log("vidpolaris API [version 1.2.0]");
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("listening on port " + (process.env.PORT || 3000));
 console.log("============================");
@@ -27,7 +27,7 @@ function onrequest(request, response) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
-			"version": "1.1.9"
+			"version": "1.2.0"
 		})
 		response.writeHead(404, {
 			"Content-Type": "application/json",
@@ -56,6 +56,16 @@ function onrequest(request, response) {
 		if (!oUrl.query.type) {
 			if (oUrl.query.trending == "US" || oUrl.query.trending == "1") {
 				req(bUrl + "api/v1/trending", function (error, res, body) {
+					if (body.includes("<!DOCTYPE")) {
+						var data = JSON.stringify({
+							"err": "API error"
+						})
+						response.writeHead(404, {
+							"Content-Type": "application/json",
+							"Access-Control-Allow-Origin": "*"
+						})
+						response.end(data);
+					}
 					if (error) {
 						var data = JSON.stringify({
 							"err": "API error"
@@ -75,6 +85,16 @@ function onrequest(request, response) {
 				})
 			} else {
 				req(bUrl + "api/v1/trending?region=" + oUrl.query.trending, function (error, res, body) {
+					if (body.includes("<!DOCTYPE")) {
+						var data = JSON.stringify({
+							"err": "API error"
+						})
+						response.writeHead(404, {
+							"Content-Type": "application/json",
+							"Access-Control-Allow-Origin": "*"
+						})
+						response.end(data);
+					}
 					if (error) {
 						var data = JSON.stringify({
 							"err": "API error"
@@ -96,6 +116,16 @@ function onrequest(request, response) {
 		} else {
 			if (oUrl.query.trending == "US" || oUrl.query.trending == "1") {
 				req(bUrl + "api/v1/trending?type=" + oUrl.query.type, function (error, res, body) {
+					if (body.includes("<!DOCTYPE")) {
+						var data = JSON.stringify({
+							"err": "API error"
+						})
+						response.writeHead(404, {
+							"Content-Type": "application/json",
+							"Access-Control-Allow-Origin": "*"
+						})
+						response.end(data);
+					}
 					if (error) {
 						var data = JSON.stringify({
 							"err": "API error"
@@ -115,6 +145,16 @@ function onrequest(request, response) {
 				})
 			} else {
 				req(bUrl +"api/v1/trending?region=" + oUrl.query.trending + "&type=" + oUrl.query.type, function (error, res, body) {
+					if (body.includes("<!DOCTYPE")) {
+						var data = JSON.stringify({
+							"err": "API error"
+						})
+						response.writeHead(404, {
+							"Content-Type": "application/json",
+							"Access-Control-Allow-Origin": "*"
+						})
+						response.end(data);
+					}
 					if (error) {
 						var data = JSON.stringify({
 							"err": "API error"
@@ -435,6 +475,16 @@ function onrequest(request, response) {
 			var bUrl = "https://invidio.us/"
 		}
 		req(bUrl + "api/v1/videos/" + id, function (error, res, body) {
+			if (body.includes("<!DOCTYPE")) {
+				var data = JSON.stringify({
+					"err": "API error"
+				})
+				response.writeHead(404, {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*"
+				})
+				response.end(data);
+			}
 			if (error) {
 				var data = JSON.stringify({
 					"err": "API error"
@@ -612,6 +662,16 @@ function onrequest(request, response) {
 			var bUrl = "https://invidio.us/"
 		}
 		req(bUrl + "api/v1/channels/" + oUrl.query.channelId, function (error, res, body) {
+			if (body.includes("<!DOCTYPE")) {
+				var data = JSON.stringify({
+					"err": "API error"
+				})
+				response.writeHead(404, {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*"
+				})
+				response.end(data);
+			}
 			if (error) {
 				var data = JSON.stringify({
 					"err": "API error"
@@ -657,6 +717,16 @@ function onrequest(request, response) {
 			var bUrl = "https://invidio.us/"
 		}
 		req(bUrl + "api/v1/channels/videos/" + oUrl.query.channelVideos + "/?sort_by=" + sort + "&page=" + page, function (error, res, body) {
+			if (body.includes("<!DOCTYPE")) {
+				var data = JSON.stringify({
+					"err": "API error"
+				})
+				response.writeHead(404, {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*"
+				})
+				response.end(data);
+			}
 			if (error) {
 				var data = JSON.stringify({
 					"err": "API error"
