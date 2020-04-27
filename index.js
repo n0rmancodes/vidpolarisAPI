@@ -56,7 +56,7 @@ function onrequest(request, response) {
 		if (!oUrl.query.type) {
 			if (oUrl.query.trending == "US" || oUrl.query.trending == "1") {
 				req(bUrl + "api/v1/trending", function (error, res, body) {
-					if (!body | body.includes("<!DOCTYPE")) {
+					if (!body | body.includes("<!DOCTYPE"))) {
 						var data = JSON.stringify({
 							"err": "API error"
 						})
@@ -85,7 +85,7 @@ function onrequest(request, response) {
 				})
 			} else {
 				req(bUrl + "api/v1/trending?region=" + oUrl.query.trending, function (error, res, body) {
-					if (!body | body.includes("<!DOCTYPE") {
+					if (!body | body.includes("<!DOCTYPE")) {
 						var data = JSON.stringify({
 							"err": "API error"
 						})
@@ -116,7 +116,7 @@ function onrequest(request, response) {
 		} else {
 			if (oUrl.query.trending == "US" || oUrl.query.trending == "1") {
 				req(bUrl + "api/v1/trending?type=" + oUrl.query.type, function (error, res, body) {
-					if (!body | body.includes("<!DOCTYPE") {
+					if (!body | body.includes("<!DOCTYPE")) {
 						var data = JSON.stringify({
 							"err": "API error"
 						})
@@ -145,7 +145,7 @@ function onrequest(request, response) {
 				})
 			} else {
 				req(bUrl +"api/v1/trending?region=" + oUrl.query.trending + "&type=" + oUrl.query.type, function (error, res, body) {
-					if (!body | body.includes("<!DOCTYPE") {
+					if (!body | body.includes("<!DOCTYPE")) {
 						var data = JSON.stringify({
 							"err": "API error"
 						})
@@ -475,7 +475,7 @@ function onrequest(request, response) {
 			var bUrl = "https://invidio.us/"
 		}
 		req(bUrl + "api/v1/videos/" + id, function (error, res, body) {
-			if (!body | body.includes("<!DOCTYPE") {
+			if (!body | body.includes("<!DOCTYPE")) {
 				var data = JSON.stringify({
 					"err": "API error"
 				})
@@ -662,7 +662,7 @@ function onrequest(request, response) {
 			var bUrl = "https://invidio.us/"
 		}
 		req(bUrl + "api/v1/channels/" + oUrl.query.channelId, function (error, res, body) {
-			if (!body | body.includes("<!DOCTYPE") {
+			if (!body | body.includes("<!DOCTYPE")) {
 				var data = JSON.stringify({
 					"err": "API error"
 				})
@@ -717,7 +717,7 @@ function onrequest(request, response) {
 			var bUrl = "https://invidio.us/"
 		}
 		req(bUrl + "api/v1/channels/videos/" + oUrl.query.channelVideos + "/?sort_by=" + sort + "&page=" + page, function (error, res, body) {
-			if (!body | body.includes("<!DOCTYPE") {
+			if (!body | body.includes("<!DOCTYPE")) {
 				var data = JSON.stringify({
 					"err": "API error"
 				})
