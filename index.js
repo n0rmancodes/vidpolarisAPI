@@ -23,7 +23,7 @@ console.log("============================");
 function onrequest(request, response) {
 	var oUrl = url.parse(request.url, true);
 	
-	if (!oUrl.query.url && !oUrl.query.reddit && !oUrl.query.redditSearch && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.subs && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate && !oUrl.query.thumb) {
+	if (!oUrl.query.url && !oUrl.query.reddit && !oUrl.query.redditSearch && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.subs && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
@@ -807,22 +807,6 @@ function onrequest(request, response) {
 				response.end(body);
 			}
 		})
-		return;
-	}
-	
-	if (oUrl.query.thumb) {
-		if (!oUrl.query.inst) {
-			var bUrl = "https://invidio.us/"
-		} else if (oUrl.query.inst == "snopyta") {
-			var bUrl = "https://invidious.snopyta.org/"
-		} else if (oUrl.query.inst == "13ad") {
-			var bUrl = "https://invidious.13ad.de/"
-		} else if (oUrl.query.inst == "yew") {
-			var bUrl = "https://yewtu.be/"
-		} else if (oUrl.query.inst == "ggc") {
-			var bUrl = "https://invidious.ggc-project.de/"
-		}
-		req(bUrl + 'vi/' + oUrl.query.thumb + "/maxres.jpg").pipe(response);
 		return;
 	}
 	
