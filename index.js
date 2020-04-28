@@ -56,7 +56,7 @@ function onrequest(request, response) {
 		if (!oUrl.query.type) {
 			if (oUrl.query.trending == "US" || oUrl.query.trending == "1") {
 				req(bUrl + "api/v1/trending", function (error, res, body) {
-					if (!body | body.includes("<!DOCTYPE"))) {
+					if (!body | body.includes("<!DOCTYPE")) {
 						var data = JSON.stringify({
 							"err": "API error"
 						})
