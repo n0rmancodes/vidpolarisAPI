@@ -250,7 +250,8 @@ function onrequest(request, response) {
 								"title": d.data.children[c].data.media.oembed.title,
 								"author": d.data.children[c].data.media.oembed.author_name,
 								"id": getVidId(d.data.children[c].data.url),
-								"originalUrl": d.data.children[c].data.url
+								"originalUrl": d.data.children[c].data.url,
+								"score": d.data.children[c].data.score
 							}
 							rDat.push(dataBlock);
 						}
@@ -277,7 +278,8 @@ function onrequest(request, response) {
 								"title": d.data.children[c].data.media.oembed.title,
 								"author": d.data.children[c].data.media.oembed.author_name,
 								"id": getVidId(d.data.children[c].data.url),
-								"originalUrl": d.data.children[c].data.url
+								"originalUrl": d.data.children[c].data.url,
+								"score": d.data.children[c].data.score
 							}
 							rDat.push(dataBlock);
 						}
