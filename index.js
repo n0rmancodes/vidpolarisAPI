@@ -895,13 +895,21 @@ function getVidId(rUrl) {
 		if (rUrl.includes("www.")) {
 			return rUrl.substring(32,43)
 		} else {
-			return rUrl.substring(23,39)
+			if (rUrl.includes("m.youtube.com")) {
+				return rUrl.substring(30,41)
+			} else {
+				return rUrl.substring(23,39)
+			}
 		}
 	} else if (rUrl.includes("youtube.com/watch?v=") & rUrl.includes("http://")) {
 		if (rUrl.includes("www.")) {
-			return rUrl.substring(33,42)
+			return rUrl.substring(31,41)
 		} else {
-			return rUrl.substring(27,43)
+			if (rUrl.includes("m.youtube.com")) {
+				return rUrl.substring(29,40)
+			} else {
+				return rUrl.substring(27,43)
+			}
 		}
 	} else if (rUrl.includes("youtu.be")) {
 		return rUrl.substring(17,28)
