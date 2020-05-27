@@ -1,4 +1,4 @@
-console.log("vidpolaris API [version 1.2.2]");
+console.log("vidpolaris API [version 1.2.3]");
 console.log("")
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("")
@@ -15,7 +15,7 @@ const youtubeSuggest = require('youtube-suggest');
 const req = require('request');
 http.createServer(onrequest).listen(process.env.PORT || 3000);
 console.clear();
-console.log("vidpolaris API [version 1.2.2]");
+console.log("vidpolaris API [version 1.2.3]");
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("listening on port " + (process.env.PORT || 3000));
 console.log("============================");
@@ -27,7 +27,7 @@ function onrequest(request, response) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
-			"version": "1.2.2"
+			"version": "1.2.3"
 		})
 		response.writeHead(404, {
 			"Content-Type": "application/json",
@@ -323,6 +323,7 @@ function onrequest(request, response) {
 						var postDat = {
 							"postTitle": d.data.children[c].data.title,
 							"postScore": d.data.children[c].data.score,
+							"postComNum": d.data.children[c].data.num_comments,
 							"postSub": d.data.children[c].data.subreddit_name_prefixed,
 							"postAuthor": "/u/" + d.data.children[c].data.author,
 							"postLink": "https://reddit.com" + d.data.children[c].data.permalink
