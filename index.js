@@ -1,4 +1,4 @@
-console.log("vidpolaris API [version 1.2.3]");
+console.log("vidpolaris API [version 1.2.4]");
 console.log("")
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("")
@@ -15,7 +15,7 @@ const youtubeSuggest = require('youtube-suggest');
 const req = require('request');
 http.createServer(onrequest).listen(process.env.PORT || 3000);
 console.clear();
-console.log("vidpolaris API [version 1.2.3]");
+console.log("vidpolaris API [version 1.2.4]");
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("listening on port " + (process.env.PORT || 3000));
 console.log("============================");
@@ -27,7 +27,7 @@ function onrequest(request, response) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
-			"version": "1.2.3"
+			"version": "1.2.4"
 		})
 		response.writeHead(404, {
 			"Content-Type": "application/json",
@@ -269,6 +269,34 @@ function onrequest(request, response) {
 		} else if (oUrl.query.type == "music") {
 			let rDat = [];
 			req("https://reddit.com/r/music/top.json?limit=100", function (error, res, body) {
+				var d = JSON.parse(body);
+				for (var c in d.data.children) {
+					if (!d.data.children[c].data.url) {return;}
+					if (d.data.children[c].data.url.includes("youtu")) {
+						if (d.data.children[c].data.media)  {
+							let dataBlock = {
+								"title": d.data.children[c].data.media.oembed.title,
+								"author": d.data.children[c].data.media.oembed.author_name,
+								"id": getVidId(d.data.children[c].data.url),
+								"originalUrl": d.data.children[c].data.url,
+								"score": d.data.children[c].data.score
+							}
+							rDat.push(dataBlock);
+						}
+					} else {
+						// do nothing
+					}
+				}
+				response.writeHead(200, {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*"
+				});
+				response.end(JSON.stringify(rDat));
+			})
+			return;
+		} else if (oUrl.query.type == "deep") {
+			let rDat = [];
+			req("https://reddit.com/r/deepintoyoutube/top.json?limit=100", function (error, res, body) {
 				var d = JSON.parse(body);
 				for (var c in d.data.children) {
 					if (!d.data.children[c].data.url) {return;}
