@@ -73,7 +73,8 @@ to: language from google translate's list, converted to ISO 639-1 format (defual
 ```
 
 [test this command (variation 1)](https://vidpolaris.herokuapp.com/?translate=hello+world&to=es) => "hello world" to spanish
-[test this command (variation 2)](https://vidpolaris.herokuapp.com/?translate=hola+mondo) => "hola mondo" to english
+
+[test this command (variation 2)](https://vidpolaris.herokuapp.com/?translate=hola+mundo) => "hola mundo" to english
 
 ### smart command (used to get highest quality videos via vidpolaris's smart quality feature, via ```node-ytdl-core```)
 
@@ -154,27 +155,29 @@ page: a number (default: 1)
 
 [test this command](https://vidpolaris.herokuapp.com/?channelVideos=UCDjb0dwTUZKZjJgSd1kJpBg) => returns channel videos of the channel RobinThickeVevo
 
-### video thumbnails in the highest quality (via ```invidious```)
 
-```http://[host]/?thumb=[id]```
+### search reddit for a video
 
-```
-thumb*: id of a video
-```
-
-[test this command](https://vidpolaris.herokuapp.com/?thumb=Bey4XXJAqS8) => returns thumbnail of a random video
-
-### video captions (via ```invidious```)
-
-```http://[host]/?subs=[id]&label=[label]```
+```http://[host]/?redditSearch=[id]```
 
 ```
-subs: id of a video
-label: provided by first response
+id*: ID of a youtube video
 ```
 
-[test this command (variation 1)](https://vidpolaris.herokuapp.com/?subs=Bey4XXJAqS8) => returns all possible subs of a random video
+[test this command](https://vidpolaris.herokuapp.com/?redditSearch=1) => reddit posts containing a link for Robert Thicke song "Blurred Lines"
 
-[test this command (variation 2)](https://vidpolaris.herokuapp.com/?subs=Bey4XXJAqS8&label=Chinese (China)) => returns chinese subs of a random video
+### videos trending on reddit
 
-*this command does not seem to work currently in the vidpolaris player*
+```http://[host]/?reddi=1&type=[sub]```
+
+```
+reddit*: 1
+sub: music, deep
+
+```
+
+if sub is not in there, it defaults to [/r/videos](https://reddit.com/r/videos).
+
+[test this command (variation 1)](https://vidpolaris.herokuapp.com/?reddit=1) => videos trending on /r/videos
+
+[test this command (variation 2)](https://vidpolaris.herokuapp.com/?reddit=1&type=deep) => videos trending on /r/deepintoyoutube
