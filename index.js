@@ -1,4 +1,4 @@
-console.log("vidpolaris API [version 1.2.4]");
+console.log("vidpolaris API [version 1.2.5]");
 console.log("")
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("")
@@ -15,7 +15,7 @@ const youtubeSuggest = require('youtube-suggest');
 const req = require('request');
 http.createServer(onrequest).listen(process.env.PORT || 3000);
 console.clear();
-console.log("vidpolaris API [version 1.2.4]");
+console.log("vidpolaris API [version 1.2.5]");
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("listening on port " + (process.env.PORT || 3000));
 console.log("============================");
@@ -27,7 +27,7 @@ function onrequest(request, response) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
-			"version": "1.2.4"
+			"version": "1.2.5"
 		})
 		response.writeHead(404, {
 			"Content-Type": "application/json",
@@ -537,16 +537,27 @@ function onrequest(request, response) {
 	if (oUrl.query.playlistId) {
 		var id = oUrl.query.playlistId
 		ytpl(oUrl.query.playlistId, function(err, playlist) {
-			if(err) throw err;
-			var json = JSON.stringify ({
-				playlist
-			})
-			response.writeHead(200, {
-				"Content-Type": "application/json",
-				"Access-Control-Allow-Origin": "*"
-			});
-			response.end(json);
-			return;
+			if (err) {
+				var json = JSON.stringify ({
+					err: "pkg error"
+				})
+				response.writeHead(200, {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*"
+				});
+				response.end(json);
+				return;
+			} else {
+				var json = JSON.stringify ({
+					playlist
+				})
+				response.writeHead(200, {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*"
+				});
+				response.end(json);
+				return;
+			}
 		});
 		return;
 	}
