@@ -242,84 +242,115 @@ function onrequest(request, response) {
 			let rDat = [];
 			req("https://reddit.com/r/videos/top.json?limit=100&t=week", function (error, res, body) {
 				var d = JSON.parse(body);
-				for (var c in d.data.children) {
-					if (!d.data.children[c].data.url) {return;}
-					if (d.data.children[c].data.url.includes("youtu")) {
-						if (d.data.children[c].data.media) {
-							let dataBlock = {
-								"title": d.data.children[c].data.media.oembed.title,
-								"author": d.data.children[c].data.media.oembed.author_name,
-								"id": getVidId(d.data.children[c].data.url),
-								"originalUrl": d.data.children[c].data.url,
-								"score": d.data.children[c].data.score
-							}
-							rDat.push(dataBlock);
-						}
-					} else {
-						// do nothing
+				if (d.data.children == undefined) {
+					var rDat = {
+						"err": "oops"
 					}
+					response.writeHead(404, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					});
+					response.end(JSON.stringify(rDat));
+				} else {
+					for (var c in d.data.children) {
+						if (!d.data.children[c].data.url) {return;}
+						if (d.data.children[c].data.url.includes("youtu")) {
+							if (d.data.children[c].data.media) {
+								let dataBlock = {
+									"title": d.data.children[c].data.media.oembed.title,
+									"author": d.data.children[c].data.media.oembed.author_name,
+									"id": getVidId(d.data.children[c].data.url),
+									"originalUrl": d.data.children[c].data.url,
+									"score": d.data.children[c].data.score
+								}
+								rDat.push(dataBlock);
+							}
+						} else {
+							// do nothing
+						}
+					}
+					response.writeHead(200, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					});
+					response.end(JSON.stringify(rDat));
 				}
-				response.writeHead(200, {
-					"Content-Type": "application/json",
-					"Access-Control-Allow-Origin": "*"
-				});
-				response.end(JSON.stringify(rDat));
 			})
 			return;
 		} else if (oUrl.query.type == "music") {
 			let rDat = [];
 			req("https://reddit.com/r/music/top.json?limit=100&t=week", function (error, res, body) {
-				var d = JSON.parse(body);
-				for (var c in d.data.children) {
-					if (!d.data.children[c].data.url) {return;}
-					if (d.data.children[c].data.url.includes("youtu")) {
-						if (d.data.children[c].data.media)  {
-							let dataBlock = {
-								"title": d.data.children[c].data.media.oembed.title,
-								"author": d.data.children[c].data.media.oembed.author_name,
-								"id": getVidId(d.data.children[c].data.url),
-								"originalUrl": d.data.children[c].data.url,
-								"score": d.data.children[c].data.score
-							}
-							rDat.push(dataBlock);
-						}
-					} else {
-						// do nothing
+				if (d.data.children == undefined) {
+					var rDat = {
+						"err": "oops"
 					}
+					response.writeHead(404, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					});
+					response.end(JSON.stringify(rDat));
+				} else {
+					for (var c in d.data.children) {
+						if (!d.data.children[c].data.url) {return;}
+						if (d.data.children[c].data.url.includes("youtu")) {
+							if (d.data.children[c].data.media) {
+								let dataBlock = {
+									"title": d.data.children[c].data.media.oembed.title,
+									"author": d.data.children[c].data.media.oembed.author_name,
+									"id": getVidId(d.data.children[c].data.url),
+									"originalUrl": d.data.children[c].data.url,
+									"score": d.data.children[c].data.score
+								}
+								rDat.push(dataBlock);
+							}
+						} else {
+							// do nothing
+						}
+					}
+					response.writeHead(200, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					});
+					response.end(JSON.stringify(rDat));
 				}
-				response.writeHead(200, {
-					"Content-Type": "application/json",
-					"Access-Control-Allow-Origin": "*"
-				});
-				response.end(JSON.stringify(rDat));
 			})
 			return;
 		} else if (oUrl.query.type == "deep") {
 			let rDat = [];
 			req("https://reddit.com/r/deepintoyoutube/top.json?limit=100&t=week", function (error, res, body) {
-				var d = JSON.parse(body);
-				for (var c in d.data.children) {
-					if (!d.data.children[c].data.url) {return;}
-					if (d.data.children[c].data.url.includes("youtu")) {
-						if (d.data.children[c].data.media)  {
-							let dataBlock = {
-								"title": d.data.children[c].data.media.oembed.title,
-								"author": d.data.children[c].data.media.oembed.author_name,
-								"id": getVidId(d.data.children[c].data.url),
-								"originalUrl": d.data.children[c].data.url,
-								"score": d.data.children[c].data.score
-							}
-							rDat.push(dataBlock);
-						}
-					} else {
-						// do nothing
+				if (d.data.children == undefined) {
+					var rDat = {
+						"err": "oops"
 					}
+					response.writeHead(404, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					});
+					response.end(JSON.stringify(rDat));
+				} else {
+					for (var c in d.data.children) {
+						if (!d.data.children[c].data.url) {return;}
+						if (d.data.children[c].data.url.includes("youtu")) {
+							if (d.data.children[c].data.media) {
+								let dataBlock = {
+									"title": d.data.children[c].data.media.oembed.title,
+									"author": d.data.children[c].data.media.oembed.author_name,
+									"id": getVidId(d.data.children[c].data.url),
+									"originalUrl": d.data.children[c].data.url,
+									"score": d.data.children[c].data.score
+								}
+								rDat.push(dataBlock);
+							}
+						} else {
+							// do nothing
+						}
+					}
+					response.writeHead(200, {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*"
+					});
+					response.end(JSON.stringify(rDat));
 				}
-				response.writeHead(200, {
-					"Content-Type": "application/json",
-					"Access-Control-Allow-Origin": "*"
-				});
-				response.end(JSON.stringify(rDat));
 			})
 			return;
 		} else {
