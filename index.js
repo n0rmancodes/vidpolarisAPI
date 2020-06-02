@@ -239,7 +239,6 @@ function onrequest(request, response) {
 	
 	if (oUrl.query.reddit) {
 		if (!oUrl.query.type) {
-			let rDat = [];
 			req("https://reddit.com/r/videos/top.json?limit=100&t=week", function (error, res, body) {
 				var d = JSON.parse(body);
 				if (d.data.children == undefined) {
@@ -252,6 +251,7 @@ function onrequest(request, response) {
 					});
 					response.end(JSON.stringify(rDat));
 				} else {
+					let rDat = [];
 					for (var c in d.data.children) {
 						if (!d.data.children[c].data.url) {return;}
 						if (d.data.children[c].data.url.includes("youtu")) {
@@ -278,7 +278,6 @@ function onrequest(request, response) {
 			})
 			return;
 		} else if (oUrl.query.type == "music") {
-			let rDat = [];
 			req("https://reddit.com/r/music/top.json?limit=100&t=week", function (error, res, body) {
 				if (d.data.children == undefined) {
 					var rDat = {
@@ -290,6 +289,7 @@ function onrequest(request, response) {
 					});
 					response.end(JSON.stringify(rDat));
 				} else {
+					let rDat = [];
 					for (var c in d.data.children) {
 						if (!d.data.children[c].data.url) {return;}
 						if (d.data.children[c].data.url.includes("youtu")) {
@@ -316,7 +316,6 @@ function onrequest(request, response) {
 			})
 			return;
 		} else if (oUrl.query.type == "deep") {
-			let rDat = [];
 			req("https://reddit.com/r/deepintoyoutube/top.json?limit=100&t=week", function (error, res, body) {
 				if (d.data.children == undefined) {
 					var rDat = {
@@ -328,6 +327,7 @@ function onrequest(request, response) {
 					});
 					response.end(JSON.stringify(rDat));
 				} else {
+					let rDat = [];
 					for (var c in d.data.children) {
 						if (!d.data.children[c].data.url) {return;}
 						if (d.data.children[c].data.url.includes("youtu")) {
