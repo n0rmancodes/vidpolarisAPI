@@ -173,7 +173,6 @@ id*: ID of a youtube video
 ```
 reddit*: 1
 sub: music, deep
-
 ```
 
 if sub is not in there, it defaults to [/r/videos](https://reddit.com/r/videos).
