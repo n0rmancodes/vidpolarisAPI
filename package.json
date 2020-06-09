@@ -27,7 +27,7 @@
     "youtube-suggest": "^1.1.0",
     "ytdl-core": "^1.0.9",
     "ytpl": "^0.1.21",
-    "ytsr": "^0.1.13"
+    "ytsr": "^0.1.15"
   },
   "devDependencies": {}
 }
