@@ -13,6 +13,7 @@ _*this is not affiliated in any way with google or youtube! use at your own risk
 
 - [fent/node-ytdl-core](https://github.com/fent/node-ytdl-core) - some metadata/links to the video
 - [TimeForANinja/ytsr](https://github.com/TimeForANinja/node-ytsr) - searches
+- [TimeForANinja/ytpl](https://github.com/TimeForANinja/node-ytpl) - playlists
 - [goto-bus-stop/youtube-suggest](https://github.com/goto-bus-stop/youtube-suggest) - search suggestions
 - [philbot9/youtube-comment-api](https://github.com/philbot9/youtube-comment-api) - comments
 - [vialets/google-translate-api](https://github.com/vitalets/google-translate-api) - translation
@@ -180,3 +181,14 @@ if sub is not in there, it defaults to [/r/videos](https://reddit.com/r/videos).
 [test this command (variation 1)](https://vidpolaris.herokuapp.com/?reddit=1) => videos trending on /r/videos
 
 [test this command (variation 2)](https://vidpolaris.herokuapp.com/?reddit=1&type=deep) => videos trending on /r/deepintoyoutube
+
+
+### playlists
+
+```http://[host]/?playlistId=[list]```
+
+```
+list: playlist id
+```
+
+[test this command](https://vidpolaris.herokuapp.com/?playlistId=PLyeA-mYHeuG_59ElnnpF7Eyg2Xx-lF31j)
