@@ -26,7 +26,7 @@ console.log("[!] this product is in no way affiliated with google or youtube! us
 console.log("listening on port " + (process.env.PORT || 3000));
 console.log("============================");
 
-function onrequest(request, response) {
+function onRequest(request, response) {
 	var oUrl = url.parse(request.url, true);
 	
 	if (!oUrl.query.url && !oUrl.query.reddit && !oUrl.query.redditSearch && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.subs && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate) {
