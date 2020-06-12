@@ -13,13 +13,13 @@ const url = require('url');
 const ytpl = require('ytpl');
 const youtubeSuggest = require('youtube-suggest');
 const req = require('request');
-const tls = require('tls');
+const tls = require('https');
 const fs = require('fs');
 const opt = {
 	key: fs.readFileSync("privkey1.pem"),
 	cert: fs.readFileSync("cert1.pem")
 }
-tls.createServer(opt, onRequest).listen(process.env.PORT || 3000);
+https.createServer(opt, onRequest).listen(process.env.PORT || 3000);
 console.clear();
 console.log("vidpolaris API [version 1.2.5]");
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
@@ -27,7 +27,7 @@ console.log("listening on port " + (process.env.PORT || 3000));
 console.log("============================");
 
 function onRequest(request, response) {
-	var oUrl = url.parse(request.url, true);
+	var oUrl = url.parse(req.url, true);
 	
 	if (!oUrl.query.url && !oUrl.query.reddit && !oUrl.query.redditSearch && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.subs && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate) {
 		var json = JSON.stringify ({
