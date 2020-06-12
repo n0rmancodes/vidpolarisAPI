@@ -13,7 +13,7 @@ const url = require('url');
 const ytpl = require('ytpl');
 const youtubeSuggest = require('youtube-suggest');
 const req = require('request');
-const tls = require('https');
+const https = require('https');
 const fs = require('fs');
 const opt = {
 	key: fs.readFileSync("vp-ssl/privkey1.pem"),
