@@ -19,11 +19,11 @@ const opt = {
 	key: fs.readFileSync("vp-ssl/privkey1.pem"),
 	cert: fs.readFileSync("vp-sll/cert1.pem")
 }
-https.createServer(opt, onRequest).listen(process.env.PORT || 3000);
+https.createServer(opt, onRequest).listen(3000);
 console.clear();
 console.log("vidpolaris API [version 1.2.5] [SSL EDIT]");
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
-console.log("listening on port " + (process.env.PORT || 3000));
+console.log("listening on port " + (3000));
 console.log("============================");
 
 function onRequest(request, response) {
