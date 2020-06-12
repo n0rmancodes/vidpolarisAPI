@@ -27,7 +27,7 @@ console.log("listening on port " + (3000));
 console.log("============================");
 
 function onRequest(request, response) {
-	var oUrl = url.parse(req.url, true);
+	var oUrl = url.parse(request.url, true);
 	
 	if (!oUrl.query.url && !oUrl.query.reddit && !oUrl.query.redditSearch && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.subs && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate) {
 		var json = JSON.stringify ({
