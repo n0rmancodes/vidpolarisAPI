@@ -16,8 +16,8 @@ const req = require('request');
 const tls = require('https');
 const fs = require('fs');
 const opt = {
-	key: fs.readFileSync("privkey1.pem"),
-	cert: fs.readFileSync("cert1.pem")
+	key: fs.readFileSync("../vp-ssl/privkey1.pem"),
+	cert: fs.readFileSync("../vp-sll/cert1.pem")
 }
 https.createServer(opt, onRequest).listen(process.env.PORT || 3000);
 console.clear();
