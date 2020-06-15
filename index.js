@@ -211,32 +211,6 @@ function onrequest(request, response) {
 		return;
 	}
 	
-//	if (oUrl.query.reccomended == "1") {
-//		if (request.method == "GET") {
-//			var data = JSON.stringify({
-//				"err": "invalidRequestMethod"
-//			})
-//			response.writeHead(404, {
-//				"Content-Type": "application/json",
-//				"Access-Control-Allow-Origin": "*"
-//			})
-//			response.end(data);
-//		} else {
-//			if (!request.headers.history) {
-//				var data = JSON.stringify({
-//					"err": "invalidHeaders"
-//				})
-//				response.writeHead(404, {
-//					"Content-Type": "application/json",
-//					"Access-Control-Allow-Origin": "*"
-//				})
-//			} else {
-//				
-//			}
-//		}
-//		return;
-//	}
-	
 	if (oUrl.query.reddit) {
 		if (!oUrl.query.type) {
 			req("https://reddit.com/r/videos/top.json?limit=100&t=week", function (error, res, body) {
@@ -440,7 +414,7 @@ function onrequest(request, response) {
 			if (err) {
 				console.log("error!: " + err)
 				var json = JSON.stringify ({
-					"err": err
+					"err": err.stack
 				})
 				response.writeHead(404, {
 					"Content-Type": "application/json",
@@ -701,7 +675,7 @@ function onrequest(request, response) {
 				response.end(json);
 			} else {
 				var json = JSON.stringify ({
-					err
+					"err":err.stack.split("\n")[0]
 				})
 				response.writeHead(200, {
 					"Content-Type": "application/json",

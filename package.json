@@ -22,9 +22,10 @@
   "dependencies": {
     "@vitalets/google-translate-api": "^3.0.0",
     "fs": "0.0.1-security",
-    "http": "0.0.0",
+    "http": "0.0.1-security",
     "https": "^1.0.0",
     "request": "^2.88.2",
+    "tls": "0.0.1",
     "youtube-comment-api": "^3.0.2",
     "youtube-suggest": "^1.1.0",
     "ytdl-core": "^2.1.7",
