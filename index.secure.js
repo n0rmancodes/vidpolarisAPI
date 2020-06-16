@@ -899,9 +899,9 @@ function onRequest(request, response) {
 	if (oUrl.query.sponsors) {
 		req("https://sponsor.ajay.app/api/skipSegments?videoID=" + oUrl.query.sponsors + "&category=sponsor", function(err, res, body) {
 			if (body == "Not Found") {
-				var data = {
+				var data = 	JSON.stringify({
 					"err": "noSponsors"
-				}
+				})
 				response.writeHead(404, {
 					"Content-Type": "application/json",
 					"Access-Control-Allow-Origin": "*"
