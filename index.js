@@ -23,7 +23,7 @@ console.log("============================");
 function onrequest(request, response) {
 	var oUrl = url.parse(request.url, true);
 	
-	if (!oUrl.query.url && !oUrl.query.reddit && !oUrl.query.redditSearch && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.subs && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate) {
+	if (!oUrl.query.url && !oUrl.query.reddit && !oUrl.query.sponsors && !oUrl.query.redditSearch && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.subs && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
@@ -886,6 +886,28 @@ function onrequest(request, response) {
 				})
 				response.end(body);
 			}
+		})
+		return;
+	}
+	
+	if (oUrl.query.sponsors) {
+		req("https://sponsor.ajay.app/api/skipSegments?videoID=" + oUrl.query.sponsors + "&category=sponsor", function(err, res, body) {
+			if (body == "Not Found") {
+				var data = {
+					"err": "noSponsors"
+				}
+				response.writeHead(404, {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*"
+				})
+				response.end(data);
+				return;
+			}
+			response.writeHead(200, {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*"
+			})
+			response.end(body);
 		})
 		return;
 	}
