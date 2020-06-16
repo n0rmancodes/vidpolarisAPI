@@ -897,11 +897,11 @@ function onRequest(request, response) {
 	}
 	
 	if (oUrl.query.sponsors) {
-		req("https://sponsor.ajay.app/api/skipSegments?videoID=" + oUrl.query.sponsors + "&categories=" + JSON.stringify(["sponsor", "intro", "outro", "interaction", "selfpromo", "music_offtopic"]), function(err, res, body) {
+		req("https://sponsor.ajay.app/api/skipSegments?videoID=" + oUrl.query.sponsors + "&category=sponsor", function(err, res, body) {
 			if (body == "Not Found") {
-				var data = JSON.stringify({
+				var data = {
 					"err": "noSponsors"
-				})
+				}
 				response.writeHead(404, {
 					"Content-Type": "application/json",
 					"Access-Control-Allow-Origin": "*"
