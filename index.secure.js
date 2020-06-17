@@ -1,4 +1,4 @@
-console.log("vidpolaris API [version 1.2.5] [SSL EDIT]");
+console.log("vidpolaris API [version 1.2.6] [SSL EDIT]");
 console.log("")
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("")
@@ -21,7 +21,7 @@ const opt = {
 }
 https.createServer(opt, onRequest).listen(3000);
 console.clear();
-console.log("vidpolaris API [version 1.2.5] [SSL EDIT]");
+console.log("vidpolaris API [version 1.2.6] [SSL EDIT]");
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("listening on port " + (3000));
 console.log("============================");
@@ -33,7 +33,7 @@ function onRequest(request, response) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
-			"version": "1.2.5"
+			"version": "1.2.6"
 		})
 		response.writeHead(404, {
 			"Content-Type": "application/json",
@@ -832,16 +832,6 @@ function onRequest(request, response) {
 			}
 		})
 		return;
-	}
-	
-	if (oUrl.query.oembed) {
-		var o = JSON.stringify(request.headers);
-		console.log(o);
-		response.writeHead(200, {
-			"Content-Type": "application/json",
-			"Access-Control-Allow-Origin": "*"
-		})
-		response.end(o);
 	}
 	
 	if (oUrl.query.channelVideos) {
