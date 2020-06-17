@@ -23,7 +23,7 @@ console.log("============================");
 function onrequest(request, response) {
 	var oUrl = url.parse(request.url, true);
 	
-	if (!oUrl.query.url && !oUrl.query.reddit && !oUrl.query.sponsors && !oUrl.query.redditSearch && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.subs && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate) {
+	if (!oUrl.query.url && !oUrl.query.reddit&& !oUrl.query.oembed && !oUrl.query.sponsors && !oUrl.query.redditSearch && !oUrl.query.trending && !oUrl.query.channelId && !oUrl.query.channelVideos && !oUrl.query.search && !oUrl.query.subs && !oUrl.query.suggest && !oUrl.query.playlistId && !oUrl.query.translate) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
@@ -825,6 +825,17 @@ function onrequest(request, response) {
 				response.end(body);
 			}
 		})
+		return;
+	}
+	
+	if (oUrl.query.oembed) {
+		var o = JSON.stringify(request.headers);
+		console.log(o);
+		response.writeHead(200, {
+			"Content-Type": "application/json",
+			"Access-Control-Allow-Origin": "*"
+		})
+		response.end(o);
 		return;
 	}
 	
