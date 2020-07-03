@@ -408,49 +408,6 @@ function onrequest(request, response) {
 		return;
 	}
 	
-	if (oUrl.query.smart == "1") {
-		var dUrl = oUrl.query.url;
-		ytdl(dUrl, function(err, info) {
-			if (err) {
-				console.log("error!: " + err)
-				var json = JSON.stringify ({
-					"err": err.stack
-				})
-				response.writeHead(404, {
-					"Content-Type": "application/json",
-					"Access-Control-Allow-Origin": "*"
-				});
-				response.end(json)
-				return;
-			}
-			if (!info.formats) {
-				console.log("no formats found")
-				var json = JSON.stringify ({
-					"err": "noFormats"
-				})
-				response.writeHead(404, {
-					"Content-Type": "application/json",
-					"Access-Control-Allow-Origin": "*"
-				});
-				response.end(json)
-				return;
-			}
-			let vFormats = ytdl.filterFormats(info.formats, 'videoonly');
-			let aFormats = ytdl.filterFormats(info.formats, 'audioonly');
-			var json = JSON.stringify ({
-				video: vFormats,
-				audio: aFormats,
-				info
-			})
-			response.writeHead(200, {
-				"Content-Type": "application/json",
-				"Access-Control-Allow-Origin": "*"
-			});
-			response.end(json);
-			return;
-		})
-	}
-	
 	if (oUrl.query.search) {
 		var search = oUrl.query.search;
 		if (oUrl.query.type == "video") {
