@@ -1,4 +1,4 @@
-console.log("vidpolaris API [version 1.2.6]");
+console.log("vidpolaris API [version 1.2.7]");
 console.log("")
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("")
@@ -15,7 +15,7 @@ const youtubeSuggest = require('youtube-suggest');
 const req = require('request');
 http.createServer(onrequest).listen(process.env.PORT || 3000);
 console.clear();
-console.log("vidpolaris API [version 1.2.6]");
+console.log("vidpolaris API [version 1.2.7]");
 console.log("[!] this product is in no way affiliated with google or youtube! use at your own risk!");
 console.log("listening on port " + (process.env.PORT || 3000));
 console.log("============================");
@@ -27,7 +27,7 @@ function onrequest(request, response) {
 		var json = JSON.stringify ({
 			"err": "noValidParams",
 			"viewEndpoints": "https://github.com/n0rmancodes/vidpolarisAPI#endpoints",
-			"version": "1.2.6"
+			"version": "1.2.7"
 		})
 		response.writeHead(404, {
 			"Content-Type": "application/json",
@@ -665,7 +665,13 @@ function onrequest(request, response) {
 		var dUrl = oUrl.query.url;
 		ytdl(dUrl, function(err, info) {
 			if (!err) {
+				let vFormats = ytdl.filterFormats(info.formats, 'videoonly');
+				let aFormats = ytdl.filterFormats(info.formats, 'audioonly');
+				let vaFormats = ytdl.filterFormats(info.formats, 'audioandvideo');
 				var json = JSON.stringify ({
+					"video": vFormats,
+					"audio": aFormats,
+					"joined": vaFormats,
 					info
 				})
 				response.writeHead(200, {

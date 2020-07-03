@@ -671,7 +671,13 @@ function onRequest(request, response) {
 		var dUrl = oUrl.query.url;
 		ytdl(dUrl, function(err, info) {
 			if (!err) {
+				let vFormats = ytdl.filterFormats(info.formats, 'videoonly');
+				let aFormats = ytdl.filterFormats(info.formats, 'audioonly');
+				let vaFormats = ytdl.filterFormats(info.formats, 'audioandvideo');
 				var json = JSON.stringify ({
+					"video": vFormats,
+					"audio": aFormats,
+					"joined": vaFormats,
 					info
 				})
 				response.writeHead(200, {
@@ -690,6 +696,7 @@ function onRequest(request, response) {
 				response.end(json);
 			}
 		})
+		return;
 		return;
 	}
 	
