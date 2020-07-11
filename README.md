@@ -53,17 +53,6 @@ url*: video link (in https://youtube.com/watch?v= format)
 
 [test this command](https://vidpolaris.herokuapp.com/?info=1&url=https://www.youtube.com/watch?v=Bey4XXJAqS8) => streaming links and info of a test video
 
-### view/like/dislike count & other info (via ```invidious```)
-
-```http://[host]/?md=1&url=[url]```
-
-```
-md*: 1
-url*: video link (in https://youtube.com/watch?v= format)
-```
-
-[test this command](https://vidpolaris.herokuapp.com/?md=1&url=https://www.youtube.com/watch?v=Bey4XXJAqS8) => view/like/dislike count of video
-
 ### translate any given text (used for comments, via ```google-translate-api```)
 
 ```http://[host]/?translate=[text]&to=[language]```
