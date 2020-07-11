@@ -66,17 +66,6 @@ to: language from google translate's list, converted to ISO 639-1 format (defual
 
 [test this command (variation 2)](https://vidpolaris.herokuapp.com/?translate=hola+mundo) => "hola mundo" to english
 
-### smart command (used to get highest quality videos via vidpolaris's smart quality feature, via ```node-ytdl-core```)
-
-```http://[host]/?smart=1&url=[url]```
-
-```
-smart*: 1
-url*: video link (in https://youtube.com/watch?v= format)
-```
-
-[test this command](https://vidpolaris.herokuapp.com/?smart=1&url=https://www.youtube.com/watch?v=Bey4XXJAqS8) => gets highest quality itags of a video
-
 ### search videos (via ```TimeForANinja/ytsr```)
 
 ```http://[host]/?search=[query]```
