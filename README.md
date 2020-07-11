@@ -11,13 +11,12 @@ _*this is not affiliated in any way with google or youtube! use at your own risk
 
 ## sources
 
-- [fent/node-ytdl-core](https://github.com/fent/node-ytdl-core) - some metadata/links to the video
+- [fent/node-ytdl-core](https://github.com/fent/node-ytdl-core) - metadata/links to the video
 - [TimeForANinja/ytsr](https://github.com/TimeForANinja/node-ytsr) - searches
 - [TimeForANinja/ytpl](https://github.com/TimeForANinja/node-ytpl) - playlists
 - [goto-bus-stop/youtube-suggest](https://github.com/goto-bus-stop/youtube-suggest) - search suggestions
 - [philbot9/youtube-comment-api](https://github.com/philbot9/youtube-comment-api) - comments
 - [vialets/google-translate-api](https://github.com/vitalets/google-translate-api) - translation
-- [philbot9/youtube-info](https://github.com/philbot9/youtube-info) - other metadata/stats
 - [invidious API](https://github.com/omarroth/invidious/wiki/API]) - channel pages, trending
 
 ## endpoints
