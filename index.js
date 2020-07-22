@@ -622,7 +622,6 @@ function onrequest(request, response) {
 					return;
 				}
 				if (!info.formats) {
-					console.log("no formats found")
 					var json = JSON.stringify ({
 						"err": "noFormats"
 					})
