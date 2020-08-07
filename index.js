@@ -500,7 +500,7 @@ function onrequest(request, response) {
 	
 	if (oUrl.query.playlistId) {
 		var id = oUrl.query.playlistId
-		ytpl(oUrl.query.playlistId, limit[0], function(err, playlist) {
+		ytpl(oUrl.query.playlistId, { limit: 0 }, function(err, playlist) {
 			if (err) {
 				var json = JSON.stringify ({
 					err: "pkg error"
