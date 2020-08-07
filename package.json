@@ -32,5 +32,7 @@
     "ytpl": "^0.2.4",
     "ytsr": "^0.1.21"
   },
-  "devDependencies": {}
+  "devDependencies": {
+   "dot-prop": ">=5.1.1"
+  }
 }
