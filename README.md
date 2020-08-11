@@ -1,3 +1,5 @@
+# A REWRITE IS BEING WRITTEN [HERE](https://github.com/n0rmancodes/vidpolaris-rw)
+
 # vidpolarisAPI
 the api for my [vidpolaris](https://n0rmancodes.github.io/vidpolaris) project, based off of my old [YTDL-API](https://github.com/n0rmancodes/YTDL-API).
 
